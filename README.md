@@ -158,7 +158,7 @@ A general site map for the project is as follow. More features may be added if n
 * (3 points) Google reCAPTCHA Integration
     * Google reCAPTCHA is a technology used to distinguish between human and automated traffic on websites.
     * reCAPTCHA is essential for security and user experience, as it helps protect web applications from bots and ensures that interactions are initiated by real users.
-    * I am going to use react-google-recaptcha module to integrate captcha into form a few submission of the web application.
+    * I am going to use react-google-recaptcha module to integrate captcha into a few form submission of the web application.
 * (2 points) Tailwind.css
     * I will be using tailwind to style my web application.
     * Tailwind.css promotes rapid development by providing a set of utility classes that can be applied directly to HTML elements.
