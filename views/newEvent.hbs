@@ -1,0 +1,58 @@
+
+{{!-- Display the error/ access rights here --}}
+{{#if error}}
+
+    <h1>{{error}}</h1>
+
+{{/if}}
+
+
+{{!-- If an admin is accessing this page, display the following --}}
+{{#unless error}}
+
+    <div class="admin-new-container">
+
+        {{!-- Title --}}
+        <div class="title">
+            <h1>Add a New Event</h1>
+        </div>
+
+
+        <div class="admin-new-form">
+
+            {{!-- Form --}}
+            <form method = "POST">
+
+                {{!-- Event Name --}}
+                <label for="title"> Title: </label> <br>
+                <input type="text" id="title" name="title" value="" required><br><br>
+
+                {{!-- Event Date --}}
+                <label for="date"> Date: </label> <br>
+                <input type="date" id="date" name="date" value="" required><br><br>
+
+                {{!-- Event Venue --}}
+                <label for="venue"> Venue: </label> <br>
+                <input type="text" id="venue" name="venue" value="" required><br><br>
+                
+
+                {{!-- Price --}}
+                <label for="price"> Price: </label> <br>
+                <input type="number" id="price" name="price" value="" required><br><br>
+
+                {{!-- Description --}}
+                <label for="description">Description: </label> <br> 
+                <textarea id="description" name="description" rows="5" cols="40" required></textarea> <br><br>
+                
+
+                {{!-- Submit --}}
+                <button type="submit"> Submit </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+{{/unless}}

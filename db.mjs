@@ -5,8 +5,9 @@ mongoose.connect(process.env.DSN);
 // userschema
 const UserSchema = new mongoose.Schema({
 
-    username: {type: String, required: true, unique: true},
-    hash: {type: String, required: true},
+    name: {type: String, required: true, minLength: 3, maxLength: 20},
+    username: {type: String, required: true, minLength: 3, maxLength: 20},
+    hash: {type: String, required: true, minLength: 4, maxLength: 60},
     admin: {type: Boolean, required: true, default: false},
     
     events: [{type: mongoose.Schema.Types.ObjectId, ref: 'Event'}]
@@ -20,8 +21,8 @@ const EventSchema = new mongoose.Schema({
     title: {type: String, required: true},
     date: {type: Date, required: true},
     venue: {type: String, required: true},
-    description: {type: String, required: true},
     price: {type: Number, required: true},
+    description: {type: String, required: true},
 
     participants: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
     numUsers: {type: Number, required: true, default: 0}

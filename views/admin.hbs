@@ -1,0 +1,86 @@
+
+{{!-- Display the error/ access rights here --}}
+{{#if error}}
+
+    <h1>{{error}}</h1>
+
+{{/if}}
+
+
+{{!-- If an admin is accessing this page, display the following --}}
+{{#unless error}}
+    
+    {{!-- Title --}}
+    <div class="admin-all-container">
+
+        <div class="title">
+            <h1>All Events</h1>
+        </div>
+
+
+    {{!-- Filtering Forms --}}
+    <div class="admin-all-form">
+        <form method = "GET">
+
+            {{!-- Title Input --}}
+            <br>
+            <label for="title"> <span>Title:</span></label>
+            <input type="text" name = "title" value = "" placeholder="Search by Event Title" class = "search-area">
+
+            {{!-- Professor Input --}}
+            <br>
+            <label for="price"> Price: </label>
+            <input type="text" name = "price" value = "" placeholder="Search by Event Price" class = "search-area">
+        
+            
+            <br>
+            {{!-- Buttons --}}
+            <input type="submit" value = "Filter" class = "submit-button">
+            <input type="submit" value="Clear All" class = "submit-button">
+        
+        </form>
+    </div>
+
+
+
+    {{!-- Event Table --}}
+    <div class = "admin-all-table">
+        <table>
+
+            {{!-- Table Row Header --}}
+            <tr>
+                <th> Title </th>
+                <th> Date </th>
+                <th> Venue </th>
+                <th> Description </th>
+                <th> Price </th>
+                <th> Tickets Sold </th>
+            </tr>
+
+            {{!-- Loop through all the events and display relevant columns --}}
+            {{#each events}}
+            
+                <tr>
+
+                <td> {{title}} </td>
+                <td> {{date}} </td>
+                <td> {{venue}} </td>
+                <td> {{description}} </td>
+                <td> {{price}} </td>
+                <td> {{numUsers}} </td>
+                
+                </tr>
+
+            {{/each}}
+
+
+        </table>
+
+    </div>
+
+
+
+
+
+    </div>
+{{/unless}}

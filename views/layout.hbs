@@ -4,9 +4,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {{!-- Favicon --}}
+    <link rel="shortcut icon" href="/img/favicon-32.png" type="image/x-icon">
+
     <title>TicketVista</title>
+
 </head>
 <body>
+
+    <div class="container">
+
+        <div class="nav-bar">
+
+            {{!-- Logo --}}
+            <div class="logo">
+                <a href="/"><img src="/img/favicon-192.png" alt="TicketVista" width = "80"></a>
+            </div>
+
+            {{!-- Banner Title --}}
+            <div class="banner">
+                <h1>TicketVista</h1>
+            </div>
+
+            {{!-- User's Info --}}
+            <div class="pageName">
+                <h3> Hello, {{pageName}}! </h3>
+
+                {{!-- Logout Button --}}
+                {{#if isLoggedIn}}
+                    <form action="/logout" method="POST">
+                        <button type="submit">Logout</button>
+                    </form>
+                {{/if}}
+            </div>
+
+        </div>
+
+
+    </div>
+
     {{{body}}}
+
 </body>
 </html>

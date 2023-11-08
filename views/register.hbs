@@ -1,0 +1,40 @@
+
+
+{{!-- if the user already exists --}}
+{{#if error}}
+    <h1>{{error}}</h1>
+{{/if}}
+
+{{!-- Registration Form --}}
+<form method = "POST" action="">
+    
+    {{!-- User's NAME --}}
+    <label for="name">Name</label>
+    <input type="text" name = "name" required>
+    <br><br>
+
+    {{!-- username --}}
+    <label for="username">Username</label>
+    <input type="text" name = "username" required>
+    <br><br>
+
+    {{!-- Password --}}
+    <label for="password">Password</label>
+    <input type="password" name = "password" required>
+    <br><br>
+
+    {{!-- Radio: Are you an admin? --}}
+    <label for="admin">Is this person an Admin?</label>
+    <br>
+
+    <input type="radio" id="admin-yes" name="admin" value="true" required>
+    <label for="admin-yes">Yes</label> <br>
+
+    <input type="radio" id="admin-no" name="admin" value="false" required>
+    <label for="admin-no">No</label> <br><br>
+
+
+    {{!-- Submit Button --}}
+    <input type="submit">
+
+</form>

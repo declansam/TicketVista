@@ -1,2 +1,27 @@
 
 <h1>{{title}}</h1>
+
+{{!-- Login & Register Options --}}
+<div class="home-buttons">
+
+    {{!-- Show Login button only if logged out --}}
+    {{#unless isLoggedIn}}
+
+        <div class="login">
+            <a href="/login">
+                <button>Login</button>
+            </a>
+        </div>
+
+    {{/unless}}
+
+
+    {{!-- Register a new user button --}}
+    <div class="register">
+        <a href="/register">
+            <button>Register a New User! </button>
+        </a>
+    </div>
+
+</div>
+

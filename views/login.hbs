@@ -1,0 +1,27 @@
+
+
+
+{{!-- error handling --}}
+{{#if error}}
+    <h1>{{error}}</h1>
+{{/if}}
+
+
+{{!-- Registration Form --}}
+<form method = "POST" action="">
+
+    {{!-- username --}}
+    <label for="username">Username</label>
+    <input type="text" name = "username" required>
+    <br><br>
+
+    {{!-- Password --}}
+    <label for="password">Password</label>
+    <input type="password" name = "password" required>
+    <br><br>
+
+    {{!-- Submit Button --}}
+    <input type="submit">
+
+</form>
+
