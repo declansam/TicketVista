@@ -42,6 +42,11 @@ const Event = mongoose.model("Event");
 //- =====================================================================
 
 
+
+
+// Global variables
+let isAdmin = false;
+
 // helper function to get the name of the user
 const getPageName = async (username) => {
     try {
@@ -74,6 +79,12 @@ app.use(async (req, res, next) => {
 });
 
 
+// middleware to check if user is admin
+app.use((req, res, next) => {
+   
+    res.locals.isAdmin = isAdmin;
+    next();
+});
 
 
 // route -> homepage
@@ -130,10 +141,12 @@ app.post('/register', async (req, res) => {
 
             // session management
             req.session.username = savedUser.username;
-        
+            isAdmin = savedUser.admin;
+
             res.redirect('/');
         }
         catch(e) {
+            isAdmin = false;
             res.render('register', {error: "Couldn't register user"});
         }
     }
@@ -163,14 +176,17 @@ app.post('/login', async (req, res) => {
 
             // session management
             req.session.username = userFound.username;
+            isAdmin = userFound.admin;
 
             res.redirect('/');
         }
         else {
+            isAdmin = false;
             res.render('login', {error: 'Incorrect password'});
         }
     }
     else {
+        isAdmin = false;
         res.render('login', {error: 'User not found'});
     }
 
@@ -191,6 +207,7 @@ app.post('/logout', (req, res) => {
         if (err) {
             console.error("Error destroying session:", err);
         } else {
+            isAdmin = false;
             res.redirect('/');
         }
 
@@ -221,6 +238,8 @@ app.get('/admin/events', async (req, res) => {
             // If correct admin
             if (userFound.admin) {
 
+                isAdmin = userFound.admin;
+
                 // Get all events from the database
                 let allEvents = await Event.find({});
                 let filteredEvents = {};
@@ -244,6 +263,7 @@ app.get('/admin/events', async (req, res) => {
             // if not admin
             else {
                 const error = "403 Forbidden";
+                isAdmin = false;
                 res.render('admin', {error});
             }
         }
@@ -251,6 +271,7 @@ app.get('/admin/events', async (req, res) => {
         // if user not found
         else {
             const error = "403 Forbidden";
+            isAdmin = false;
             res.render('admin', {error});
         }
 
@@ -280,12 +301,14 @@ app.get('/admin/newEvent', async (req, res) => {
             
             // If correct admin
             if (userFound.admin) {
+                isAdmin = userFound.admin;
                 res.render('newEvent', {});
             }
 
             // if not admin
             else {
                 const error = "403 Forbidden";
+                isAdmin = false;
                 res.render('newEvent', {error});
             }
         }
@@ -293,6 +316,7 @@ app.get('/admin/newEvent', async (req, res) => {
         // if user not found
         else {
             const error = "403 Forbidden";
+            isAdmin = false;
             res.render('newEvent', {error});
         }
 

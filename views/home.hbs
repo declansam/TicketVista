@@ -16,6 +16,26 @@
     {{/unless}}
 
 
+    {{!-- Options for Admin --}}
+    {{#if isAdmin}}
+
+        {{!-- Show Admin button only if logged in as admin --}}
+        <div class="admin">
+            <a href="/admin/events">
+                <button>Admin Dashboard</button>
+            </a>
+        </div>
+
+        {{!-- Show New Event button only if logged in as admin --}}
+        <div class="newEvent">
+            <a href="/admin/newEvent">
+                <button>Create A New Event</button>
+            </a>
+        </div>
+
+    {{/if}}
+
+
     {{!-- Register a new user button --}}
     <div class="register">
         <a href="/register">
