@@ -150,10 +150,10 @@ A general site map for the project is as follow. More features may be added if n
 
 ## Research Topics
 
-* (5 points) React
-    * I'm going to be using React.js for front-end development.
-    * React utilizes a component-based architecture, making it ideal for creating dynamic and interactive web applications.
-    * It is widely used in modern web development due to its performance benefits and the ability to create reusable components.
+* (5 points) Passport.js
+    * Passport.js is an authentication package for Node.js applications.
+    * Its allows us to customize authentication according to your application's specific needs.
+    * I will be using passport since it follows the "Express-style" middleware pattern, making it compatible with Express.js, thus simplifying the integration process.
     * The framework has a steep-learning curve so I have assigned it 5 points. 
 * (3 points) Google reCAPTCHA Integration
     * Google reCAPTCHA is a technology used to distinguish between human and automated traffic on websites.
@@ -162,7 +162,11 @@ A general site map for the project is as follow. More features may be added if n
 * (2 points) Tailwind.css
     * I will be using tailwind to style my web application.
     * Tailwind.css promotes rapid development by providing a set of utility classes that can be applied directly to HTML elements.
-    * Tailwind CSS promotes consistency in design and styling, thus it will help to bring a professional look to the project. 
+    * Tailwind CSS promotes consistency in design and styling, thus it will help to bring a professional look to the project.
+* (2 points) dotevn
+    * It allows us to store sensitive information like API keys, database credentials, and other configuration settings in a separate file.
+    * This helps in keeping the application's secrets secure and separate from your source code. 
+    * I will be using it in my application, thus I have dedicated 2 points for it. 
 
 
 ## [Link to Initial Main Project File](app.mjs)
@@ -170,8 +174,9 @@ A general site map for the project is as follow. More features may be added if n
 <br> 
 
 ## Annotations / References Used
-1. [React Documentation](https://react.dev/learn)
+1. [Passport.js Documentation](https://www.passportjs.org/)
 2. Google reCAPTCHA Integration
     * [Library](https://www.npmjs.com/package/react-google-recaptcha)
     * [Google VP Console](https://www.google.com/recaptcha/admin/create)
 3. [Tailwind.css Documentation](https://tailwindcss.com/docs/installation)
+4. [dotevn Documentation](https://www.npmjs.com/package/dotenv)
