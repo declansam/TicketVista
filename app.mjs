@@ -242,7 +242,7 @@ app.get('/admin/events', async (req, res) => {
 
                 // Get all events from the database
                 let allEvents = await Event.find({});
-                let filteredEvents = {};
+                const filteredEvents = {};
 
                 // If query parameter(s) is(are) present, add it(them) to the filteredEvents object
                 if (req.query.title) {
@@ -291,7 +291,6 @@ app.get('/admin/newEvent', async (req, res) => {
 
     const username = req.session.username;
     const pattern = new RegExp(`^${username}$`, 'i');
-    const title = "Create New Event";
 
     try {
         
