@@ -10,7 +10,8 @@ const UserSchema = new mongoose.Schema({
     hash: {type: String, required: true, minLength: 4, maxLength: 60},
     admin: {type: Boolean, required: true, default: false},
     
-    events: [{type: mongoose.Schema.Types.ObjectId, ref: 'Event'}]
+    events: [{type: mongoose.Schema.Types.ObjectId, ref: 'Event'}],
+    addedEvents: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Event' }]
 
 });
 
@@ -23,6 +24,7 @@ const EventSchema = new mongoose.Schema({
     venue: {type: String, required: true},
     price: {type: Number, required: true},
     description: {type: String, required: true},
+    addedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
 
     participants: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
     numUsers: {type: Number, required: true, default: 0}

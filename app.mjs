@@ -338,8 +338,17 @@ app.post('/admin/newEvent', async (req, res) => {
     const description = req.body.description;
     const numUsers = 0;
 
+    // Get the username of the user who added the event
+    const addedByUser = req.session.username;
+
     // Add the event to the database
     try {
+
+        const userFound = await User.findOne({ username: addedByUser });
+        if (!userFound) {
+            res.status(404).send("Admin not found");
+            return;
+        }
 
         const newEvent = new Event({
                         title: title,
@@ -347,11 +356,16 @@ app.post('/admin/newEvent', async (req, res) => {
                         venue: venue,
                         price: price,
                         description: description,
-                        numUsers: numUsers
+                        numUsers: numUsers,
+                        addedBy: userFound._id
         });
         
         const savedEvent = await newEvent.save();
         console.log(savedEvent);
+
+        // Update the 'addedEvents' array of the user
+        userFound.addedEvents.push(savedEvent._id);
+        await userFound.save();
 
         // redirect to the homepage
         res.redirect('/admin/events');              
