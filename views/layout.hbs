@@ -8,14 +8,17 @@
     {{!-- Favicon --}}
     <link rel="shortcut icon" href="/img/favicon-32.png" type="image/x-icon">
 
+    {{!-- Stylesheets --}}
+    <link rel="stylesheet" href="/stylesheets/style.css">
+
     <title>TicketVista</title>
 
 </head>
-<body>
+<body class="bg-gray-100">
 
-    <div class="container">
+    <div class="container x-auto p-4">
 
-        <div class="nav-bar">
+        <div class="nav-bar bg-blue-500 text-white py-2 px-4 flex justify-between items-center">
 
             {{!-- Logo --}}
             <div class="logo">
@@ -23,18 +26,18 @@
             </div>
 
             {{!-- Banner Title --}}
-            <div class="banner">
+            <div class="banner text-2xl font-bold">
                 <h1>TicketVista</h1>
             </div>
 
             {{!-- User's Info --}}
-            <div class="pageName">
+            <div class="pageName text-lg font-semibold flex items-center">
                 <h3> Hello, {{pageName}}! </h3>
 
                 {{!-- Logout Button --}}
                 {{#if isLoggedIn}}
                     <form action="/logout" method="POST">
-                        <button type="submit">Logout</button>
+                        <button type="submit" class="ml-2 bg-red-500 hover:bg-red-700 text-white font-semibold py-1 px-2 rounded focus:outline-none focus:shadow-outline-red">Logout</button>
                     </form>
                 {{/if}}
             </div>

@@ -2,7 +2,7 @@
 {{!-- Display the error/ access rights here --}}
 {{#if error}}
 
-    <h1>{{error}}</h1>
+    <h1 class="text-red-600 text-xl font-bold mb-4">{{error}}</h1>
 
 {{/if}}
 
@@ -11,32 +11,32 @@
 {{#unless error}}
     
     {{!-- Title --}}
-    <div class="admin-all-container">
+    <div class="admin-all-container p-4 bg-white shadow-md rounded-md">
 
-        <div class="title">
+        <div class="title text-2xl font-bold mb-4">
             <h1>All Events</h1>
         </div>
 
 
     {{!-- Filtering Forms --}}
     <div class="admin-all-form">
-        <form method = "GET">
+        <form method = "GET" class="mb-4">
 
             {{!-- Title Input --}}
             <br>
-            <label for="title"> <span>Title:</span></label>
-            <input type="text" name = "title" value = "" placeholder="Search by Event Title" class = "search-area">
+            <label for="title" class="block text-gray-600 text-sm font-semibold mb-2"> Title:</label>
+            <input type="text" name = "title" value = "" placeholder="Search by Event Title" class = "search-area w-full px-3 py-2 border rounded-md mb-2">
 
             {{!-- Professor Input --}}
             <br>
-            <label for="price"> Price: </label>
-            <input type="text" name = "price" value = "" placeholder="Search by Event Price" class = "search-area">
+            <label for="price" class="block text-gray-600 text-sm font-semibold mb-2"> Price: </label>
+            <input type="text" name = "price" value = "" placeholder="Search by Event Price" class = "search-area w-full px-3 py-2 border rounded-md mb-2">
         
             
             <br>
             {{!-- Buttons --}}
-            <input type="submit" value = "Filter" class = "submit-button">
-            <input type="submit" value="Clear All" class = "submit-button">
+            <input type="submit" value = "Filter" class = "submit-button bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md mr-2 hover:shadow-md focus:outline-none focus:ring focus:ring-blue-300">
+            <input type="submit" value="Clear All" class = "submit-button bg-gray-300 text-gray-600 font-semibold py-2 px-4 rounded-md hover:bg-gray-400 hover:shadow-md focus:outline-none focus:ring focus:ring-gray-300">
         
         </form>
     </div>
@@ -45,29 +45,29 @@
 
     {{!-- Event Table --}}
     <div class = "admin-all-table">
-        <table>
+        <table class="w-full">
 
             {{!-- Table Row Header --}}
-            <tr>
-                <th> Title </th>
-                <th> Date </th>
-                <th> Venue </th>
-                <th> Description </th>
-                <th> Price </th>
-                <th> Tickets Sold </th>
+            <tr class="bg-blue-500 text-white">
+                <th class="py-2 px-4"> Title </th>
+                <th class="py-2 px-4"> Date </th>
+                <th class="py-2 px-4"> Venue </th>
+                <th class="py-2 px-4"> Description </th>
+                <th class="py-2 px-4"> Price </th>
+                <th class="py-2 px-4"> Tickets Sold </th>
             </tr>
 
             {{!-- Loop through all the events and display relevant columns --}}
             {{#each events}}
             
-                <tr>
+                <tr class="border-b">
 
-                <td> {{title}} </td>
-                <td> {{date}} </td>
-                <td> {{venue}} </td>
-                <td> {{description}} </td>
-                <td> {{price}} </td>
-                <td> {{numUsers}} </td>
+                <td class="py-2 px-4"> {{title}} </td>
+                <td class="py-2 px-4"> {{date}} </td>
+                <td class="py-2 px-4"> {{venue}} </td>
+                <td class="py-2 px-4"> {{description}} </td>
+                <td class="py-2 px-4"> {{price}} </td>
+                <td class="py-2 px-4"> {{numUsers}} </td>
                 
                 </tr>
 

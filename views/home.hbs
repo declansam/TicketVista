@@ -1,5 +1,4 @@
-
-<h1>{{title}}</h1>
+<h1 class="text-4xl font-bold mb-6">{{title}}</h1>
 
 {{!-- Login & Register Options --}}
 <div class="home-buttons">
@@ -9,7 +8,7 @@
 
         <div class="login">
             <a href="/login">
-                <button>Login</button>
+                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline-blue active:bg-blue-800">Login</button>
             </a>
         </div>
 
@@ -22,14 +21,14 @@
         {{!-- Show Admin button only if logged in as admin --}}
         <div class="admin">
             <a href="/admin/events">
-                <button>Admin Dashboard</button>
+                <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline-green active:bg-green-800">Admin Dashboard</button>
             </a>
         </div>
 
         {{!-- Show New Event button only if logged in as admin --}}
         <div class="newEvent">
             <a href="/admin/newEvent">
-                <button>Create A New Event</button>
+                <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline-green active:bg-green-800">Create A New Event</button>
             </a>
         </div>
 
@@ -39,9 +38,8 @@
     {{!-- Register a new user button --}}
     <div class="register">
         <a href="/register">
-            <button>Register a New User! </button>
+            <button class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline-indigo active:bg-indigo-800">Register a New User!</button>
         </a>
     </div>
 
 </div>
-

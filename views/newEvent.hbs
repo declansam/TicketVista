@@ -2,7 +2,7 @@
 {{!-- Display the error/ access rights here --}}
 {{#if error}}
 
-    <h1>{{error}}</h1>
+    <h1 class="text-red-600 text-2xl font-bold my-4">{{error}}</h1>
 
 {{/if}}
 
@@ -10,10 +10,10 @@
 {{!-- If an admin is accessing this page, display the following --}}
 {{#unless error}}
 
-    <div class="admin-new-container">
+    <div class="admin-new-container p-4 bg-white shadow-md rounded-md">
 
         {{!-- Title --}}
-        <div class="title">
+        <div class="title text-2xl font-bold mb-4">
             <h1>Add a New Event</h1>
         </div>
 
@@ -24,29 +24,51 @@
             <form method = "POST">
 
                 {{!-- Event Name --}}
-                <label for="title"> Title: </label> <br>
-                <input type="text" id="title" name="title" value="" required><br><br>
+                <div class="mb-4">
+                    
+                    <label for="title" class="block text-gray-600 text-sm font-semibold">Title:</label>
+                    <input type="text" id="title" name="title" value="" required class="w-full px-3 py-2 border rounded-md">
+                
+                </div>
 
                 {{!-- Event Date --}}
-                <label for="date"> Date: </label> <br>
-                <input type="date" id="date" name="date" value="" required><br><br>
+                <div class="mb-4">
+
+                    <label for="date" class="block text-gray-600 text-sm font-semibold">Date:</label>
+                    <input type="date" id="date" name="date" value="" required class="w-full px-3 py-2 border rounded-md">
+                
+                </div>
 
                 {{!-- Event Venue --}}
-                <label for="venue"> Venue: </label> <br>
-                <input type="text" id="venue" name="venue" value="" required><br><br>
+                <div class="mb-4">
+
+                    <label for="venue" class="block text-gray-600 text-sm font-semibold">Venue:</label>
+                    <input type="text" id="venue" name="venue" value="" required class="w-full px-3 py-2 border rounded-md">
+               
+                </div>
                 
 
                 {{!-- Price --}}
-                <label for="price"> Price: </label> <br>
-                <input type="number" id="price" name="price" value="" required><br><br>
+                <div class="mb-4">
+
+                    <label for="price" class="block text-gray-600 text-sm font-semibold">Price:</label>
+                    <input type="number" id="price" name="price" value="" required class="w-full px-3 py-2 border rounded-md">
+                
+                </div>
 
                 {{!-- Description --}}
-                <label for="description">Description: </label> <br> 
-                <textarea id="description" name="description" rows="5" cols="40" required></textarea> <br><br>
+                <div class="mb-4">
+
+                    <label for="description" class="block text-gray-600 text-sm font-semibold">Description:</label>
+                    <textarea id="description" name="description" rows="5" cols="40" required class="w-full px-3 py-2 border rounded-md"></textarea>
+
+                </div>
                 
 
                 {{!-- Submit --}}
-                <button type="submit"> Submit </button>
+                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md hover:shadow-md focus:outline-none focus:ring focus:ring-blue-300">
+                    Submit
+                </button>
 
             </form>
 
