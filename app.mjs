@@ -79,10 +79,38 @@ app.use(async (req, res, next) => {
 });
 
 
-// middleware to check if user is admin
-app.use((req, res, next) => {
-   
-    res.locals.isAdmin = isAdmin;
+// middleware to check if user is admin and set the global variable 'isAdmin' accordingly
+app.use(async (req, res, next) => {
+
+    // retrieve the username from the session
+    res.locals.currUser = req.session.username;
+    const pattern = new RegExp(`^${res.locals.currUser}$`, 'i');
+
+    // if the user is logged in, then check if the user is admin
+    if (res.locals.currUser) {
+
+        // search for the user in the database and assign the value of 'admin' to the global variable 'isAdmin'
+        try {
+            const userFound = await User.findOne({username: pattern});
+            
+            if (userFound) {
+                res.locals.isAdmin = userFound.admin;
+            }
+            else {
+                res.locals.isAdmin = false;
+            }
+
+            isAdmin = res.locals.isAdmin;
+
+        }
+        catch(e) {
+            console.log("Error in Admin middleware: ", e);
+        }
+    }
+    else {
+        isAdmin = false;
+    }
+    
     next();
 });
 
@@ -176,17 +204,14 @@ app.post('/login', async (req, res) => {
 
             // session management
             req.session.username = userFound.username;
-            isAdmin = userFound.admin;
 
             res.redirect('/');
         }
         else {
-            isAdmin = false;
             res.render('login', {error: 'Incorrect password'});
         }
     }
     else {
-        isAdmin = false;
         res.render('login', {error: 'User not found'});
     }
 
@@ -233,42 +258,29 @@ app.get('/admin/events', async (req, res) => {
         
         const userFound = await User.findOne({username: pattern});
 
-        if (userFound) {
+        if (userFound && userFound.admin) {
             
-            // If correct admin
-            if (userFound.admin) {
+            // Get all events from the database
+            let allEvents = await Event.find({});
+            const filteredEvents = {};
 
-                isAdmin = userFound.admin;
-
-                // Get all events from the database
-                let allEvents = await Event.find({});
-                const filteredEvents = {};
-
-                // If query parameter(s) is(are) present, add it(them) to the filteredEvents object
-                if (req.query.title) {
-                    filteredEvents.title = { $regex: new RegExp(req.query.title, 'i') };
-                }
-                
-                if (req.query.price) {
-                    filteredEvents.price = req.query.price;
-                }
-
-                // Finding relevant events from the database -- based on query values
-                allEvents = await Event.find(filteredEvents);
-
-                // render admin.hbs with filtered events (if any)
-                res.render('admin', {title, events: allEvents});
+            // If query parameter(s) is(are) present, add it(them) to the filteredEvents object
+            if (req.query.title) {
+                filteredEvents.title = { $regex: new RegExp(req.query.title, 'i') };
+            }
+            
+            if (req.query.price) {
+                filteredEvents.price = req.query.price;
             }
 
-            // if not admin
-            else {
-                const error = "403 Forbidden";
-                isAdmin = false;
-                res.render('admin', {error});
-            }
+            // Finding relevant events from the database -- based on query values
+            allEvents = await Event.find(filteredEvents);
+
+            // render admin.hbs with filtered events (if any)
+            res.render('admin', {title, events: allEvents});
         }
 
-        // if user not found
+        // if user not found or is not admin
         else {
             const error = "403 Forbidden";
             isAdmin = false;
@@ -296,26 +308,14 @@ app.get('/admin/newEvent', async (req, res) => {
         
         const userFound = await User.findOne({username: pattern});
 
-        if (userFound) {
-            
-            // If correct admin
-            if (userFound.admin) {
-                isAdmin = userFound.admin;
-                res.render('newEvent', {});
-            }
-
-            // if not admin
-            else {
-                const error = "403 Forbidden";
-                isAdmin = false;
-                res.render('newEvent', {error});
-            }
+        // if user exists and is admin
+        if (userFound && userFound.admin) {
+            res.render('newEvent', {});
         }
 
-        // if user not found
+        // if user not found or is not admin
         else {
             const error = "403 Forbidden";
-            isAdmin = false;
             res.render('newEvent', {error});
         }
 
@@ -326,39 +326,44 @@ app.get('/admin/newEvent', async (req, res) => {
 
 });
 
-
 app.post('/admin/newEvent', async (req, res) => {
-
-    // Get the data from the form
-    const title = req.body.title;
-    const date = req.body.date;
-    const venue = req.body.venue;
-    const price = req.body.price;
-    const description = req.body.description;
-    const numUsers = 0;
-
-    // Get the username of the user who added the event
-    const addedByUser = req.session.username;
-
-    // Add the event to the database
+    
     try {
-
+        
+        // Get the username of the admin
+        const addedByUser = req.session.username;
         const userFound = await User.findOne({ username: addedByUser });
+
+        // If admin not found
         if (!userFound) {
             res.status(404).send("Admin not found");
             return;
         }
 
+        // fields retreived from the form
+        const fields = ['title', 'date', 'venue', 'price', 'description'];
+
+        // use reduce to create an object with the fields and their values
+        const eventData = fields.reduce((data, field) => {
+
+            if (!req.body[field]) {
+                res.status(400).send(`Missing ${field} in request body`);
+                throw new Error(`Missing ${field} in request body`);
+            }
+
+            data[field] = req.body[field];
+            return data;
+
+        }, {} );
+
+        // Create a new event object
         const newEvent = new Event({
-                        title: title,
-                        date: date,
-                        venue: venue,
-                        price: price,
-                        description: description,
-                        numUsers: numUsers,
-                        addedBy: userFound._id
+            ...eventData,
+            numUsers: 0,
+            addedBy: userFound._id,
         });
-        
+
+        // Save the event to the database
         const savedEvent = await newEvent.save();
         console.log(savedEvent);
 
@@ -367,13 +372,13 @@ app.post('/admin/newEvent', async (req, res) => {
         await userFound.save();
 
         // redirect to the homepage
-        res.redirect('/admin/events');              
-    }
+        res.redirect('/admin/events');
+    } 
     catch (err) {
         res.status(500).send("Error: " + err);
     }
-
 });
+
 
 
 
