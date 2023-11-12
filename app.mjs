@@ -2,6 +2,7 @@
 //- ======================================================================
 import "./config.mjs";
 import "./db.mjs";
+import "./passport-config.mjs"
 
 // relevant libraries
 import path from 'path';
@@ -11,21 +12,16 @@ import express from 'express';
 import mongoose from 'mongoose';
 import session from 'express-session';
 
-
-
 // express setup
 const app = express();
 
-// static files
+// static files, hbs & body parser
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 app.use(express.static(path.join(__dirname, 'public')));
-
-// hbs setup
 app.set('view engine', 'hbs');
-
-// body parser
 app.use(express.urlencoded({ extended: false }));
+
 
 // express session
 const sessionOptions = {
@@ -35,6 +31,13 @@ const sessionOptions = {
 };
 app.use(session(sessionOptions));
 
+// passport
+import passport from 'passport';
+import flash from "express-flash";
+app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 // models
 const User = mongoose.model("User");
@@ -42,10 +45,19 @@ const Event = mongoose.model("Event");
 //- =====================================================================
 
 
-
-
 // Global variables
 let isAdmin = false;
+
+// middleware to check if user is logged in --> BUT using passport instead
+app.use((req, res, next) => {
+
+    if (req.isAuthenticated()) {
+        req.session.username = req.user.username;
+    }
+    
+    next();
+});
+
 
 // helper function to get the name of the user
 const getPageName = async (username) => {
@@ -62,6 +74,7 @@ const getPageName = async (username) => {
     }
     return 'guest';
 };
+
 
 // middleware to check if user is logged in
 // if the user is logged in, then display the name of the user in the navbar; otherwise, display 'guest'
@@ -187,35 +200,22 @@ app.get('/register', (req, res) => {
 });
 
 
+app.post(
+    
+    '/login',
+    
+    passport.authenticate('local', {
+        
+        successRedirect: '/',
+        failureRedirect: '/login',
+        failureFlash: true
+
+    }),
 
 
-// route -> login
-app.post('/login', async (req, res) => {
 
-    const username = req.body.username;
-    const password = req.body.password;
+);
 
-    const pattern = new RegExp(`^${username}$`, 'i');
-    const userFound = await User.findOne({username: pattern});
-
-    if (userFound) {
-
-        if (userFound.hash === password) {
-
-            // session management
-            req.session.username = userFound.username;
-
-            res.redirect('/');
-        }
-        else {
-            res.render('login', {error: 'Incorrect password'});
-        }
-    }
-    else {
-        res.render('login', {error: 'User not found'});
-    }
-
-});
 
 app.get('/login', (req, res) => {
     res.render('login');
