@@ -1,8 +1,8 @@
 
-//- ======================================================================
+//- ==================================== SETUP =====================================
 import "./config.mjs";
 import "./db.mjs";
-import "./passport-config.mjs"
+import "./passport-config.mjs";
 
 // relevant libraries
 import path from 'path';
@@ -35,20 +35,33 @@ const sessionOptions = {
 };
 app.use(session(sessionOptions));
 
+
 // passport middleware
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
 
+// import routes
+import aRoutes from './routes/admin.mjs';
+
+
 // models
 const User = mongoose.model("User");
-const Event = mongoose.model("Event");
-//- =====================================================================
+
+//- =================================================================================
+
+
+
 
 
 // Global variables
 let isADMIN = false;
+
+
+
+
+//- ============================== MIDDLEWARE========================================
 
 // middleware to check if user is logged in --> BUT using passport instead
 app.use((req, res, next) => {
@@ -126,6 +139,7 @@ app.use(async (req, res, next) => {
         isADMIN = false;
     }
     
+    console.log("isAdmin: ", isADMIN);
     next();
 });
 
@@ -161,8 +175,39 @@ app.post('/register', async (req, res) => {
     const pattern = new RegExp(`^${req.body.username}$`, 'i');
     const userFound = await User.findOne({username: pattern});
 
+    // reCAPTCHA verification - make it mandatory to register
+    const recaptchaResponse = req.body['g-recaptcha-response'];
+    const secretkey = process.env.RECAPTCHASECRETKEYREG;
+    const recaptchaVerificationUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secretkey}&response=${recaptchaResponse}`;
+
+    try {
+
+        // Verify reCAPTCHA
+        const recaptchaVerificationResult = await fetch(recaptchaVerificationUrl, {
+            method: 'POST',
+        });
+
+        const recaptchaData = await recaptchaVerificationResult.json();
+
+        // If reCAPTCHA verification failed, return an error
+        // render the register page with (1) API KEY -> to rensure reCAPTCHA is displayed
+        // (2) formData -> to ensure that the user doesn't have to re-enter the data
+        if (!recaptchaData.success) {
+            const recaptchaAPIKey = process.env.RECAPTCHASITETKEYREG;
+            return res.render('register', { error: 'reCAPTCHA verification failed', recaptchaAPIKey, formData: req.body });
+        }
+
+    } catch (error) {
+        console.error('Error verifying reCAPTCHA:', error);
+        const recaptchaAPIKey = process.env.RECAPTCHASITETKEYREG;
+        return res.render('register', { error: 'Error verifying reCAPTCHA', recaptchaAPIKey, formData: req.body});
+    }
+
+
+    // verifying if user already exists
     if (userFound) {
-        res.render('register', {error: 'User already exists'});
+        const recaptchaAPIKey = process.env.RECAPTCHASITETKEYREG;
+        res.render('register', {error: 'User already exists', recaptchaAPIKey, formData: req.body});
     }
     else {
 
@@ -188,7 +233,8 @@ app.post('/register', async (req, res) => {
         }
         catch(e) {
             isADMIN = false;
-            res.render('register', {error: "Couldn't register user"});
+            const recaptchaAPIKey = process.env.RECAPTCHASITETKEYREG;
+            res.render('register', {error: "Couldn't register user", recaptchaAPIKey, formData: req.body});
         }
     }
 
@@ -196,7 +242,7 @@ app.post('/register', async (req, res) => {
 
 
 app.get('/register', (req, res) => {
-    const recaptchaAPIKey = process.env.RECAPTCHASECRETKEYMAIN;
+    const recaptchaAPIKey = process.env.RECAPTCHASITETKEYREG;
     res.render('register', { recaptchaAPIKey: recaptchaAPIKey });
 });
 
@@ -219,8 +265,7 @@ app.post(
 
 
 app.get('/login', (req, res) => {
-    const recaptchaAPIKeyLogin = process.env.RECAPTCHASECRETKEYSEC;
-    res.render('login', {recaptchaAPIKeyLogin: recaptchaAPIKeyLogin});
+    res.render('login');
 });
 
 
@@ -247,140 +292,8 @@ app.get('/logout', (req, res) => {
 });
 
 
-
-
-// route -> ADMIN VIEW
-app.get('/admin/events', async (req, res) => {
-
-    const username = req.session.username;
-    const pattern = new RegExp(`^${username}$`, 'i');
-    const title = "Admin View";
-
-    try {
-        
-        const userFound = await User.findOne({username: pattern});
-
-        if (userFound && userFound.admin) {
-            
-            // Get all events from the database
-            let allEvents = await Event.find({});
-            const filteredEvents = {};
-
-            // If query parameter(s) is(are) present, add it(them) to the filteredEvents object
-            if (req.query.title) {
-                filteredEvents.title = { $regex: new RegExp(req.query.title, 'i') };
-            }
-            
-            if (req.query.price) {
-                filteredEvents.price = req.query.price;
-            }
-
-            // Finding relevant events from the database -- based on query values
-            allEvents = await Event.find(filteredEvents);
-
-            // render admin.hbs with filtered events (if any)
-            res.render('admin', {title, events: allEvents});
-        }
-
-        // if user not found or is not admin
-        else {
-            const error = "403 Forbidden";
-            isADMIN = false;
-            res.render('admin', {error});
-        }
-
-    }
-    catch(err) {
-        console.log("Error in Admin View: ", err);
-    }
-
-});
-
-
-
-
-
-// route -> ADMIN: NEW EVENT
-app.get('/admin/newEvent', async (req, res) => {
-
-    const username = req.session.username;
-    const pattern = new RegExp(`^${username}$`, 'i');
-
-    try {
-        
-        const userFound = await User.findOne({username: pattern});
-
-        // if user exists and is admin
-        if (userFound && userFound.admin) {
-            res.render('newEvent', {});
-        }
-
-        // if user not found or is not admin
-        else {
-            const error = "403 Forbidden";
-            res.render('newEvent', {error});
-        }
-
-    }
-    catch(err) {
-        console.log("Error in Admin Add Event: ", err);
-    }
-
-});
-
-app.post('/admin/newEvent', async (req, res) => {
-    
-    try {
-        
-        // Get the username of the admin
-        const addedByUser = req.session.username;
-        const userFound = await User.findOne({ username: addedByUser });
-
-        // If admin not found
-        if (!userFound) {
-            res.status(404).send("Admin not found");
-            return;
-        }
-
-        // fields retreived from the form
-        const fields = ['title', 'date', 'venue', 'price', 'description'];
-
-        // use reduce to create an object with the fields and their values
-        const eventData = fields.reduce((data, field) => {
-
-            if (!req.body[field]) {
-                res.status(400).send(`Missing ${field} in request body`);
-                throw new Error(`Missing ${field} in request body`);
-            }
-
-            data[field] = req.body[field];
-            return data;
-
-        }, {} );
-
-        // Create a new event object
-        const newEvent = new Event({
-            ...eventData,
-            numUsers: 0,
-            addedBy: userFound._id,
-        });
-
-        // Save the event to the database
-        const savedEvent = await newEvent.save();
-        console.log(savedEvent);
-
-        // Update the 'addedEvents' array of the user
-        userFound.addedEvents.push(savedEvent._id);
-        await userFound.save();
-
-        // redirect to the homepage
-        res.redirect('/admin/events');
-    } 
-    catch (err) {
-        res.status(500).send("Error: " + err);
-    }
-});
-
+// Routes for admin
+app.use('/admin', aRoutes);
 
 
 

@@ -155,7 +155,7 @@ A general site map for the project is as follow. More features may be added if n
     * Its allows us to customize authentication according to your application's specific needs.
     * I will be using passport since it follows the "Express-style" middleware pattern, making it compatible with Express.js, thus simplifying the integration process.
     * The framework has a steep-learning curve so I have assigned it 5 points. 
-* (3 points) Google reCAPTCHA Integration
+* (2 points) Google reCAPTCHA Integration
     * Google reCAPTCHA is a technology used to distinguish between human and automated traffic on websites.
     * reCAPTCHA is essential for security and user experience, as it helps protect web applications from bots and ensures that interactions are initiated by real users.
     * I am going to use react-google-recaptcha module to integrate captcha into a few form submission of the web application.
@@ -163,7 +163,7 @@ A general site map for the project is as follow. More features may be added if n
     * I will be using tailwind to style my web application.
     * Tailwind.css promotes rapid development by providing a set of utility classes that can be applied directly to HTML elements.
     * Tailwind CSS promotes consistency in design and styling, thus it will help to bring a professional look to the project.
-* (2 points) dotevn
+* (1 points) dotevn
     * It allows us to store sensitive information like API keys, database credentials, and other configuration settings in a separate file.
     * This helps in keeping the application's secrets secure and separate from your source code. 
     * I will be using it in my application, thus I have dedicated 2 points for it. 
@@ -176,7 +176,6 @@ A general site map for the project is as follow. More features may be added if n
 ## Annotations / References Used
 1. [Passport.js Documentation](https://www.passportjs.org/)
 2. Google reCAPTCHA Integration
-    * [Library](https://www.npmjs.com/package/react-google-recaptcha)
     * [Google VP Console](https://www.google.com/recaptcha/admin/create)
 3. [Tailwind.css Documentation](https://tailwindcss.com/docs/installation)
 4. [dotevn Documentation](https://www.npmjs.com/package/dotenv)
