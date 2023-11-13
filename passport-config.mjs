@@ -4,6 +4,7 @@ import "./db.mjs";
 import passport from 'passport';
 import LocalStrategy from 'passport-local';
 import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
 
 const User = mongoose.model("User");
 
@@ -22,14 +23,26 @@ const verifyCallback = async (username, password, done) => {
         const pattern = new RegExp(`^${username}$`, 'i');
         const user = await User.findOne({username: pattern});
 
+        // check if user exists
         if (!user) {
             return done(null, false, { message: 'Incorrect username.' });
         }
 
-        if (user.hash !== password) {
-            return done(null, false, { message: 'Incorrect password.' });
+        // compare password
+        try {
+
+            const isValid = await bcrypt.compare(password, user.hash);
+
+            if (isValid === false) {
+                return done(null, false, { message: 'Incorrect password.' });
+            }
+
+        }
+        catch (e) {
+            return done(null, false, { message: 'Error Hashing Password.' });
         }
 
+        // if everything is fine
         return done(null, user);
 
     } 

@@ -11,10 +11,14 @@ import { fileURLToPath } from 'url';
 import express from 'express';
 import mongoose from 'mongoose';
 import session from 'express-session';
+import passport from 'passport';
+import flash from "express-flash";
+import bcrypt from 'bcryptjs';
 
 // express setup
 const app = express();
 
+// MIDDLEWARE SETUP
 // static files, hbs & body parser
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -31,9 +35,6 @@ const sessionOptions = {
 };
 app.use(session(sessionOptions));
 
-// passport
-import passport from 'passport';
-import flash from "express-flash";
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
@@ -46,7 +47,7 @@ const Event = mongoose.model("Event");
 
 
 // Global variables
-let isAdmin = false;
+let isADMIN = false;
 
 // middleware to check if user is logged in --> BUT using passport instead
 app.use((req, res, next) => {
@@ -54,7 +55,7 @@ app.use((req, res, next) => {
     if (req.isAuthenticated()) {
         req.session.username = req.user.username;
     }
-    
+
     next();
 });
 
@@ -113,7 +114,7 @@ app.use(async (req, res, next) => {
                 res.locals.isAdmin = false;
             }
 
-            isAdmin = res.locals.isAdmin;
+            isADMIN = res.locals.isAdmin;
 
         }
         catch(e) {
@@ -121,7 +122,7 @@ app.use(async (req, res, next) => {
         }
     }
     else {
-        isAdmin = false;
+        isADMIN = false;
     }
     
     next();
@@ -168,11 +169,9 @@ app.post('/register', async (req, res) => {
 
             const u = new User({
 
-                // TODO: sanitize username
-                // TODO: hash password
-                name: req.body.name,
+                name: (req.body.name),
                 username: req.body.username,
-                hash: req.body.password,
+                hash: await bcrypt.hash(req.body.password, 10),
                 admin: req.body.admin
                 
             });
@@ -182,12 +181,12 @@ app.post('/register', async (req, res) => {
 
             // session management
             req.session.username = savedUser.username;
-            isAdmin = savedUser.admin;
+            isADMIN = savedUser.admin;
 
             res.redirect('/');
         }
         catch(e) {
-            isAdmin = false;
+            isADMIN = false;
             res.render('register', {error: "Couldn't register user"});
         }
     }
@@ -200,6 +199,8 @@ app.get('/register', (req, res) => {
 });
 
 
+// route -> login
+// using passport.js
 app.post(
     
     '/login',
@@ -211,8 +212,6 @@ app.post(
         failureFlash: true
 
     }),
-
-
 
 );
 
@@ -232,7 +231,7 @@ app.post('/logout', (req, res) => {
         if (err) {
             console.error("Error destroying session:", err);
         } else {
-            isAdmin = false;
+            isADMIN = false;
             res.redirect('/');
         }
 
@@ -283,7 +282,7 @@ app.get('/admin/events', async (req, res) => {
         // if user not found or is not admin
         else {
             const error = "403 Forbidden";
-            isAdmin = false;
+            isADMIN = false;
             res.render('admin', {error});
         }
 
