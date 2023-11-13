@@ -9,7 +9,7 @@
 
 
 {{!-- Registration Form --}}
-<form method="POST" action="" class="max-w-sm mx-auto mt-8 p-4 bg-white shadow-md rounded-md">
+<form method="POST" action="" class="max-w-sm mx-auto mt-8 p-4 bg-white shadow-md rounded-md" id = "register-form">
     
     {{!-- User's NAME --}}
     <div class="mb-4">
@@ -48,7 +48,11 @@
 
     </div>
 
-
+    {{!-- Google reCAPTCHA element --}}
+    <br>
+        <div class="g-recaptcha" data-sitekey={{recaptchaAPIKey}}></div>
+    <br>
+    
     {{!-- Submit Button --}}
     <button type="submit" class="w-full bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md hover:shadow-md focus:outline-none focus:ring focus:ring-blue-300">
         Submit

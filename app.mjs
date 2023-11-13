@@ -35,6 +35,7 @@ const sessionOptions = {
 };
 app.use(session(sessionOptions));
 
+// passport middleware
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
@@ -195,7 +196,8 @@ app.post('/register', async (req, res) => {
 
 
 app.get('/register', (req, res) => {
-    res.render('register');
+    const recaptchaAPIKey = process.env.RECAPTCHASECRETKEYMAIN;
+    res.render('register', { recaptchaAPIKey: recaptchaAPIKey });
 });
 
 
@@ -217,7 +219,8 @@ app.post(
 
 
 app.get('/login', (req, res) => {
-    res.render('login');
+    const recaptchaAPIKeyLogin = process.env.RECAPTCHASECRETKEYSEC;
+    res.render('login', {recaptchaAPIKeyLogin: recaptchaAPIKeyLogin});
 });
 
 
