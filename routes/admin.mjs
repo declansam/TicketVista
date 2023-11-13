@@ -8,8 +8,16 @@ const User = mongoose.model("User");
 const Event = mongoose.model("Event");
 
 
+// middleware to check if user is authenticated
+const isAuthenticated = (req, res, next) => {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    res.redirect('/login');
+};
+
 // route -> ADMIN VIEW
-router.get('/events', async (req, res) => {
+router.get('/events', isAuthenticated, async (req, res) => {
 
     const username = req.session.username;
     const pattern = new RegExp(`^${username}$`, 'i');
@@ -59,7 +67,7 @@ router.get('/events', async (req, res) => {
 
 
 // route -> ADMIN: NEW EVENT
-router.get('/newEvent', async (req, res) => {
+router.get('/newEvent', isAuthenticated, async (req, res) => {
 
     const username = req.session.username;
     const pattern = new RegExp(`^${username}$`, 'i');

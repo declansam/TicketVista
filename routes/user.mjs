@@ -69,7 +69,7 @@ router.get('/:username/book', isAuthenticated, async (req, res) => {
 });
 
 // Route for handling specific events
-router.get('/:username/:eventId', async (req, res) => {
+router.get('/:username/:eventId', isAuthenticated, async (req, res) => {
     
     try {
         const userFound = await User.findOne({ username: req.params.username });
@@ -98,9 +98,20 @@ router.post('/:username/book/:eventId', isAuthenticated, async (req, res) => {
 
         const userFound = await User.findOne({ username: req.params.username });
         const event = await Event.findById( req.params.eventId );
+        
+       
 
         if (!userFound || !event) {
             return res.status(404).send('User or event not found');
+        }
+
+        // Check if the user has already booked the event
+        if (userFound.events.some(bookedEvent => bookedEvent.equals(event._id))) {
+             
+            // Fetch events specific to the user
+            const userEvents = await Event.find( { participants: userFound._id } );
+            return res.status(400).render('userEvents', { userFound: userFound, userEvents: userEvents, error: "You have already booked the said event!"});
+
         }
 
         // Add the event to the user's event list

@@ -1,5 +1,12 @@
 
-<h1>Events Booked by {{userFound.name}}</h1>
+
+
+{{#if error}}
+    <h1 class="text-red-600 text-xl font-bold mb-4">{{error}}</h1>
+{{/if}}
+
+<h1> Events Booked by {{userFound.name}}</h1>
+
 
 {{#if userEvents.length}}
 
