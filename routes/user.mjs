@@ -18,7 +18,7 @@ const isAuthenticated = (req, res, next) => {
 };
 
 
-// route -> USER VIEW
+// route GET --> USER VIEW
 router.get('/:username/events', isAuthenticated, async (req, res) => {
     
     try {
@@ -44,7 +44,7 @@ router.get('/:username/events', isAuthenticated, async (req, res) => {
 
 
 
-// route -> BOOK EVENT
+// Route GET --> BOOK EVENT
 // Page to book an event
 router.get('/:username/book', isAuthenticated, async (req, res) => {
     
@@ -68,7 +68,9 @@ router.get('/:username/book', isAuthenticated, async (req, res) => {
 
 });
 
-// Route for handling specific events
+
+// Route GET for handling specific events
+// Book this specific event
 router.get('/:username/:eventId', isAuthenticated, async (req, res) => {
     
     try {
@@ -92,6 +94,7 @@ router.get('/:username/:eventId', isAuthenticated, async (req, res) => {
 });
 
 
+// Route POST --> BOOK EVENT
 router.post('/:username/book/:eventId', isAuthenticated, async (req, res) => {
     
     try {
@@ -137,6 +140,62 @@ router.post('/:username/book/:eventId', isAuthenticated, async (req, res) => {
 });
 
 
+// Route GET --> CANCEL EVENT
+// Cancel this specific event
+router.get('/:username/unbook/:eventId', isAuthenticated, async (req, res) => {
+    
+    try {
+        const userFound = await User.findOne({ username: req.params.username });
+        const event = await Event.findById(req.params.eventId);
+
+        if (!userFound || !event) {
+            return res.status(404).send('User or event not found');
+        }
+
+        // Render a page to handle the specific event
+        res.render('unbookEvent', { userFound, event });
+
+    } 
+    catch (error) {
+
+        console.error('Error fetching user or event:', error);
+        res.status(500).send('Internal Server Error');
+
+    }
+});
+
+
+// Route POST --> unbook event
+router.post('/:username/unbook/:eventId', isAuthenticated, async (req, res) => {
+
+    try {
+        const userFound = await User.findOne({ username: req.params.username });
+        const event = await Event.findById(req.params.eventId);
+
+        if (!userFound || !event) {
+            return res.status(404).send('User or event not found');
+        }
+
+        // Remove the event from the user's event list
+        userFound.events.pull(event._id);
+        await userFound.save();
+
+        // Remove the user from the event's participant list
+        event.participants.pull(userFound._id);
+        await event.save();
+
+        event.numUsers = event.participants.length;
+        await event.save();
+
+        res.redirect(`/u/${userFound.username}/events`);
+    
+    }
+    catch (e) {
+        console.error('Error unbooking event:', e);
+        res.status(500).send('Internal Server Error');
+    }
+
+});
 
 
 
