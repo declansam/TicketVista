@@ -31,15 +31,38 @@
                 <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline-green active:bg-green-800">Create A New Event</button>
             </a>
         </div>
-
+    
     {{/if}}
 
-
+    {{!-- Move it inside the upper 'if' IF register feature is exclusive to ADMIN --}}
     {{!-- Register a new user button --}}
     <div class="register">
         <a href="/register">
             <button class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline-indigo active:bg-indigo-800">Register a New User!</button>
         </a>
     </div>
+
+
+    {{#if isLoggedIn}}
+
+        {{#unless isAdmin}}
+
+            {{!-- Show User Dashboard button only if logged in as user --}}
+            <div class="user">
+                <a href="/u/{{username}}/events">
+                    <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline-green active:bg-green-800">User Dashboard</button>
+                </a>
+            </div>
+
+            {{!-- Similarly, show 'book event' button --}}
+            <div class="user">
+                <a href="/u/{{username}}/book">
+                    <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline-green active:bg-green-800">Book Event</button>
+                </a>
+            </div>
+
+        {{/unless}}
+
+    {{/if}}
 
 </div>

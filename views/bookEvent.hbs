@@ -1,0 +1,45 @@
+
+<h1>Book an Event for {{userFound.name}}</h1>
+
+{{#if error}}
+    <h1 class="text-red-600 text-xl font-bold mb-4">{{error}}</h1>
+{{/if}}
+
+
+<!-- Event Table -->
+<h3>All Available Events</h3>
+
+<div class="user-all-table">
+    <table class="w-full">
+
+        <!-- Table Row Header -->
+        <tr class="bg-blue-500 text-white">
+            <th class="py-2 px-4"> Title </th>
+            <th class="py-2 px-4"> Date </th>
+            <th class="py-2 px-4"> Venue </th>
+            <th class="py-2 px-4"> Description </th>
+            <th class="py-2 px-4"> Price ($) </th>
+        </tr>
+
+        <!-- Loop through all the events and display relevant columns -->
+        {{#each allEvents}}
+            <tr class="border-b" onclick="redirectToEvent('{{../userFound.name}}', '{{_id}}')">
+                <td class="py-2 px-4"> {{title}} </td>
+                <td class="py-2 px-4"> {{date}} </td>
+                <td class="py-2 px-4"> {{venue}} </td>
+                <td class="py-2 px-4"> {{description}} </td>
+                <td class="py-2 px-4"> {{price}} </td>
+            </tr>
+        {{/each}}
+
+    </table>
+</div>
+
+<script>
+
+    // JavaScript function to redirect to a specific user and event
+    function redirectToEvent(username, eventId) {
+        window.location.href = `/u/${username}/${eventId}`;
+    }
+
+</script>

@@ -1,0 +1,19 @@
+
+<h1>Event Details</h1>
+<br><br>
+
+<p><strong>Event Name:</strong> {{event.title}}</p>
+<p><strong>Event Date:</strong> {{event.date}}</p>
+<p><strong>Event Venue:</strong> {{event.venue}}</p>
+<p><strong>Description:</strong> {{event.description}}</p>
+<p><strong>Price:</strong> {{event.price}}</p>
+
+<br><br>
+
+<!-- Options for the user -->
+<form action="/u/{{userFound.username}}/book/{{event._id}}" method="post">
+    
+    <button type="submit">Book this Event</button>
+
+</form>
+

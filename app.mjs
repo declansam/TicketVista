@@ -44,6 +44,7 @@ app.use(passport.session());
 
 // import routes
 import aRoutes from './routes/admin.mjs';
+import uRoutes from './routes/user.mjs';
 
 
 // models
@@ -149,6 +150,7 @@ app.get('/', async (req, res) => {
 
     const title = "Homepage!";
     const username = req.session.username;
+    let isRegularUser = false;
 
 
     try {
@@ -157,14 +159,20 @@ app.get('/', async (req, res) => {
         const userFound = await User.findOne({username: pattern});
 
         if (userFound) {
-            req.session.pageName = userFound.name; 
+            req.session.pageName = userFound.name;
+            isRegularUser = !userFound.admin;
         }
     }
     catch(e) {
         console.log("Error in Homepage: ", e);
     }
 
-    res.render('home', {title});
+    if (!isRegularUser) {
+        res.render('home', {title} );
+    }
+    else {
+        res.render('home', {title, username: username} )
+    }
 
 });
 
@@ -294,6 +302,9 @@ app.get('/logout', (req, res) => {
 
 // Routes for admin
 app.use('/admin', aRoutes);
+
+// Routes for user
+app.use('/u', uRoutes);
 
 
 
