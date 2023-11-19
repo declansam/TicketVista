@@ -58,6 +58,64 @@ const verifyCallback = async (username, password, done) => {
 const strategy = new LocalStrategy(inputData, verifyCallback);
 passport.use(strategy);
 
+const registerStrategy = new LocalStrategy(
+    {
+        ...inputData,
+
+        // gives access to the request object
+        passReqToCallback: true
+    },
+
+    async (req, username, password, done) => {
+
+        const pattern = new RegExp(`^${username}$`, 'i');
+        const userFound = await User.findOne({ username: pattern });
+
+        // reCAPTCHA verification - make it mandatory to register
+        const recaptchaResponse = req.body['g-recaptcha-response'];
+        const secretkey = process.env.RECAPTCHASECRETKEYREG;
+        const recaptchaVerificationUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secretkey}&response=${recaptchaResponse}`;
+
+        try {
+            // Verify reCAPTCHA
+            const recaptchaVerificationResult = await fetch(recaptchaVerificationUrl, {
+                method: 'POST',
+            });
+
+            // Parse verification result
+            const recaptchaData = await recaptchaVerificationResult.json();
+
+            // If reCAPTCHA verification failed, return an error
+            // render the register page with (1) API KEY -> to rensure reCAPTCHA is displayed
+            // (2) formData -> to ensure that the user doesn't have to re-enter the data
+            if (!recaptchaData.success) {
+                return done(null, false, { message: 'reCAPTCHA verification failed' });
+            }
+
+            // Continue with user registration
+            if (userFound) {
+                return done(null, false, { message: 'User already exists.' });
+            }
+
+            const newUser = new User({
+                name: (req.body.name),
+                username: req.body.username,
+                hash: await bcrypt.hash(req.body.password, 10),
+                admin: req.body.admin
+            });
+
+            const savedUser = await newUser.save();
+            return done(null, savedUser);
+
+        } catch (error) {
+            console.error('Error verifying reCAPTCHA:', error);
+            return done(error);
+        }
+    }
+);
+
+passport.use('register', registerStrategy);
+
 
 // Passport configuration -> serializeUser used to store user id in session
 passport.serializeUser((user, done) => {

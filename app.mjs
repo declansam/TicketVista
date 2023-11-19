@@ -176,78 +176,19 @@ app.get('/', async (req, res) => {
 
 });
 
+// Route -> register
+// using passport.js
+app.post(
+    
+    '/register', 
+    
+    passport.authenticate('register', {
+        successRedirect: '/',
+        failureRedirect: '/register',
+        failureFlash: true
+    })
 
-// route -> register a new user
-app.post('/register', async (req, res) => {
-
-    const pattern = new RegExp(`^${req.body.username}$`, 'i');
-    const userFound = await User.findOne({username: pattern});
-
-    // reCAPTCHA verification - make it mandatory to register
-    const recaptchaResponse = req.body['g-recaptcha-response'];
-    const secretkey = process.env.RECAPTCHASECRETKEYREG;
-    const recaptchaVerificationUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secretkey}&response=${recaptchaResponse}`;
-
-    try {
-
-        // Verify reCAPTCHA
-        const recaptchaVerificationResult = await fetch(recaptchaVerificationUrl, {
-            method: 'POST',
-        });
-
-        const recaptchaData = await recaptchaVerificationResult.json();
-
-        // If reCAPTCHA verification failed, return an error
-        // render the register page with (1) API KEY -> to rensure reCAPTCHA is displayed
-        // (2) formData -> to ensure that the user doesn't have to re-enter the data
-        if (!recaptchaData.success) {
-            const recaptchaAPIKey = process.env.RECAPTCHASITETKEYREG;
-            return res.render('register', { error: 'reCAPTCHA verification failed', recaptchaAPIKey, formData: req.body });
-        }
-
-    } catch (error) {
-        console.error('Error verifying reCAPTCHA:', error);
-        const recaptchaAPIKey = process.env.RECAPTCHASITETKEYREG;
-        return res.render('register', { error: 'Error verifying reCAPTCHA', recaptchaAPIKey, formData: req.body});
-    }
-
-
-    // verifying if user already exists
-    if (userFound) {
-        const recaptchaAPIKey = process.env.RECAPTCHASITETKEYREG;
-        res.render('register', {error: 'User already exists', recaptchaAPIKey, formData: req.body});
-    }
-    else {
-
-        try {
-
-            const u = new User({
-
-                name: (req.body.name),
-                username: req.body.username,
-                hash: await bcrypt.hash(req.body.password, 10),
-                admin: req.body.admin
-                
-            });
-
-            const savedUser = await u.save();
-            console.log(savedUser);
-
-            // session management
-            req.session.username = savedUser.username;
-            isADMIN = savedUser.admin;
-
-            res.redirect('/');
-        }
-        catch(e) {
-            isADMIN = false;
-            const recaptchaAPIKey = process.env.RECAPTCHASITETKEYREG;
-            res.render('register', {error: "Couldn't register user", recaptchaAPIKey, formData: req.body});
-        }
-    }
-
-});
-
+);
 
 app.get('/register', (req, res) => {
     const recaptchaAPIKey = process.env.RECAPTCHASITETKEYREG;
