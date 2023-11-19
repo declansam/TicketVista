@@ -89,12 +89,22 @@ const registerStrategy = new LocalStrategy(
             // render the register page with (1) API KEY -> to rensure reCAPTCHA is displayed
             // (2) formData -> to ensure that the user doesn't have to re-enter the data
             if (!recaptchaData.success) {
-                return done(null, false, { message: 'reCAPTCHA verification failed' });
+                
+                console.error('Error verifying reCAPTCHA - no success:');
+                return done(null, false, {
+                    message: 'Error verifying reCAPTCHA',
+                    renderData: { error: 'Error verifying reCAPTCHA!', formData: req.body },
+                });
             }
 
             // Continue with user registration
             if (userFound) {
-                return done(null, false, { message: 'User already exists.' });
+
+                console.error('User already exists.');
+                return done(null, false, { 
+                    message: 'User already exists.', 
+                    renderData: { error: 'User already exists.', formData: req.body },
+                });
             }
 
             const newUser = new User({
@@ -108,8 +118,12 @@ const registerStrategy = new LocalStrategy(
             return done(null, savedUser);
 
         } catch (error) {
+            
             console.error('Error verifying reCAPTCHA:', error);
-            return done(error);
+            return done(null, false, { 
+                message: 'Error verifying reCAPTCHA',
+                renderData: { error: 'Error verifying reCAPTCHA', formData: req.body },
+            });
         }
     }
 );
