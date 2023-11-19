@@ -171,7 +171,7 @@ app.get('/', async (req, res) => {
         res.render('home', {title} );
     }
     else {
-        res.render('home', {title, username: username} )
+        res.render('home', {title, username: username} );
     }
 
 });
