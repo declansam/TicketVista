@@ -148,5 +148,42 @@ router.post('/newEvent', async (req, res) => {
     }
 });
 
+
+
+
+// route -> ADMIN: View Reviews
+router.get('/events/reviews/:eventID', isAuthenticated, async (req, res) => {
+
+    // Display all reviews for this event
+    const eventID = req.params.eventID;
+
+    try {
+        
+        // find the event with the given ID
+        // populate the 'allReviews' array with the reviews for this event
+        // populate the 'user' field of each review with the user's name
+        const event = await Event.findById(eventID).populate({
+            path: 'allReviews',
+            populate: { path: 'user', select: 'name' }
+        });
+
+        if (!event) {
+            res.status(404).send('Event not found');
+            return;
+        }
+
+        // display all reviews for this event on the same page
+        res.render('reviews', { event: event, reviews: event.allReviews });
+
+    }
+    catch(err) {
+        console.log("Error in Admin View Reviews: ", err);
+    }
+    
+
+});
+
+
+
 export default router;
 

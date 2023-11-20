@@ -1,0 +1,48 @@
+
+<h1>User Reviews for {{event.title}}</h1>
+
+{{#if error}}
+
+    <h1 class="text-red-600 text-xl font-bold mb-4">{{error}}</h1>
+
+{{/if}}
+
+{{#if event}}
+
+    <div class="event-reviews">
+
+        {{#if event.allReviews.length}}
+
+            <div class="event-reviews-table">
+                <table class="w-full">
+
+                    <!-- Table Row Header -->
+                    <tr class="bg-blue-500 text-white">
+                        <th class="py-2 px-4"> Added By </th>
+                        <th class="py-2 px-4"> Rating </th>
+                        <th class="py-2 px-4"> Comment </th>
+                    </tr>
+
+                    <!-- Loop through all the reviews and display relevant columns -->
+                    {{#each event.allReviews}}
+                        <tr>
+                            <td class="py-2 px-4"> {{user.name}} </td>
+                            <td class="py-2 px-4"> {{rating}} </td>
+                            <td class="py-2 px-4"> {{reviewText}} </td>
+                        </tr>
+                    {{/each}}
+
+                </table>
+            </div>
+
+        {{else}}
+
+            <p>No reviews for this event yet.</p>
+
+        {{/if}}
+
+    </div>
+
+{{/if}}
+
+

@@ -7,6 +7,7 @@ const router = express.Router();
 import mongoose from 'mongoose';
 const User = mongoose.model("User");
 const Event = mongoose.model("Event");
+const Review = mongoose.model("Review");
 
 
 // middleware to check if user is authenticated
@@ -196,6 +197,75 @@ router.post('/:username/unbook/:eventId', isAuthenticated, async (req, res) => {
     }
 
 });
+
+
+// Route GET --> Feedback Form
+// Feedback form for the event: (1) That user has booked and (2) That is in the past as of today
+router.get('/:username/feedback/:eventId', isAuthenticated, async (req, res) => {
+    
+    try {
+        const userFound = await User.findOne({ username: req.params.username });
+        const event = await Event.findById(req.params.eventId);
+
+        if (!userFound || !event) {
+            return res.status(404).send('User or event not found');
+        }
+
+        // Render a page to submit feedback for the specific event
+        res.render('submitFeedback', { userFound, event });
+
+    } 
+    catch (error) {
+
+        console.error('Error fetching user or event:', error);
+        res.status(500).send('Internal Server Error');
+
+    }
+});
+
+
+// Route POST --> Feedback Form
+router.post('/:username/feedback/:eventId', isAuthenticated, async (req, res) => {
+
+    try {
+        const userFound = await User.findOne({ username: req.params.username });
+        const event = await Event.findById(req.params.eventId);
+
+        if (!userFound || !event) {
+            return res.status(404).send('User or event not found');
+        }
+
+        // Add the user's feedback to the review schema
+        const userReview = new Review({
+            user: userFound._id,
+            event: event._id,
+            rating: req.body.rating,
+            reviewText: req.body.reviewText,
+            timestamp: new Date()
+        });
+
+        await userReview.save();
+
+        // Add the user's feedback to the event's review list
+        event.allReviews.push(userReview._id);
+        await event.save();
+
+        // Add the event to the user's review list
+        userFound.review.push(userReview._id);
+        await userFound.save();
+
+        res.redirect(`/u/${userFound.username}/events`);
+
+    } 
+    catch (error) {
+
+        console.error('Error booking event:', error);
+        res.status(500).send('Internal Server Error');
+
+    }
+});
+
+
 
 
 

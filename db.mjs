@@ -11,7 +11,9 @@ const UserSchema = new mongoose.Schema({
     admin: {type: Boolean, required: true, default: false},
     
     events: [{type: mongoose.Schema.Types.ObjectId, ref: 'Event'}],
-    addedEvents: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Event' }]
+    addedEvents: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Event' }],
+
+    review: [{type: mongoose.Schema.Types.ObjectId, ref: 'Review'}]
 
 });
 
@@ -27,7 +29,9 @@ const EventSchema = new mongoose.Schema({
     addedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
 
     participants: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
-    numUsers: {type: Number, required: true, default: 0}
+    numUsers: {type: Number, required: true, default: 0},
+
+    allReviews: [{type: mongoose.Schema.Types.ObjectId, ref: 'Review'}]
 
 });
 
