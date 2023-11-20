@@ -9,6 +9,24 @@
 <!-- Event Table -->
 <h3>All Available Events</h3>
 
+{{!-- Filtering Forms --}}
+<div class="admin-all-form">
+    <form method = "GET" class="mb-4">
+
+        {{!-- Description Input --}}
+        <br>
+        <label for="description" class="block text-gray-600 text-sm font-semibold mb-2"> Description: </label>
+        <input type="text" name = "description" value = "" placeholder="Search by Event Description" class = "search-area w-full px-3 py-2 border rounded-md mb-2">
+    
+        
+        <br>
+        {{!-- Buttons --}}
+        <input type="submit" value = "Filter" class = "submit-button bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md mr-2 hover:shadow-md focus:outline-none focus:ring focus:ring-blue-300">
+        <input type="submit" value="Clear All" class = "submit-button bg-gray-300 text-gray-600 font-semibold py-2 px-4 rounded-md hover:bg-gray-400 hover:shadow-md focus:outline-none focus:ring focus:ring-gray-300">
+    
+    </form>
+</div>
+
 <div class="user-all-table">
     <table class="w-full">
 

@@ -52,11 +52,21 @@ router.get('/:username/book', isAuthenticated, async (req, res) => {
     try {
         
         const userFound = await User.findOne({ username: req.params.username });
-        const allEvents = await Event.find({});
+        let allEvents = await Event.find({});
 
         if (!userFound) {
             return res.status(404).send('User not found');
         }
+
+        // Filter out events based on the query
+        allEvents = allEvents.filter(event => {
+            
+            // Check if the description matches the query
+            const descriptionMatch = !req.query.description || event.description.match(new RegExp(req.query.description, 'i'));
+
+            // Check if the title matches the query (case-insensitive)
+            return descriptionMatch;
+        });
 
         res.render('bookEvent', { userFound: userFound, allEvents: allEvents });
     } 

@@ -32,11 +32,15 @@ An Example User:
 
 ```javascript
 {
-  username: "bond007",
-  hash: // a password hash,
-  admin: // a boolean value -> yes means admin, no means a participant,
+  name: "JamesBond", // name of the user (string, required)
+  username: "bond007", // username (string, required)
+  hash: // a password hash (string),
+  admin: // a boolean value -> yes means admin, no means a participant (boolean, required),
   
-  events: // an array of reference to bookings
+  events: // an array of reference to events --> events to attend,
+  addedEvent: // an array of references to events --> events added by the admin,
+
+  review: //  an array of references to reviews --> feedback dropped by participants for event(s)
 }
 ```
 
@@ -49,9 +53,12 @@ An Example Event:
   venue: "City Hall",
   description: "A live music concert",
   price: "$50",
+  addedBy: //  an array of references to a user --> who (which Admin) added this event,
 
   participants: // an array of references to registered users,
-  numUsers: // number of users
+  numUsers: // number of users (number, required)
+
+  allReviews: // an array of references to reviews --> all the reviews associated with this event
 }
 ```
 
@@ -120,7 +127,7 @@ An Example Review:
 
 <br>
 
-`/u/:username/feedback` - Page to submit a feedback for an event
+`/u/:username/feedback/:eventID` - Page to submit a feedback for an event
 
 <img src="documentation/event_feedback.png" width="800">
 
