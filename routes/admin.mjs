@@ -7,6 +7,7 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 const User = mongoose.model("User");
 const Event = mongoose.model("Event");
+const Review = mongoose.model("Review");
 
 
 // middleware to check if user is authenticated
@@ -238,6 +239,135 @@ router.get('/events/reviews/:eventID', isAuthenticated, async (req, res) => {
     
 
 });
+
+
+// route -> ADMIN: View participants
+router.get('/events/participants/:eventID', isAuthenticated, async (req, res) => {
+
+    // Display all reviews for this event
+    const eventID = req.params.eventID;
+
+    try {
+        const event = await Event.findById(eventID).populate('participants', 'name username');
+
+        if (!event) {
+            res.status(404).send('Event not found');
+            return;
+        }
+
+        res.render('participants', { event: event });
+
+    } catch (err) {
+        console.log("Error in displaying participants: ", err);
+        res.status(500).send("Internal Server Error");
+    }
+
+});
+
+
+// route -> ADMIN: Edit Event Get
+// Display the edit event form
+router.get('/events/edit/:eventID', isAuthenticated, async (req, res) => {
+
+    const eventID = req.params.eventID;
+
+    try {
+        // Find the event by ID
+        const event = await Event.findById(eventID);
+
+        if (!event) {
+            res.status(404).send('Event not found');
+            return;
+        }
+
+        // Format the date
+        const formattedDate = event.date.toISOString().split('T')[0];
+
+        // Render the editEvent.hbs with the event details
+        res.render('editEvent', { event: event, formattedDate: formattedDate });
+
+    } catch (err) {
+        console.log("Error in displaying edit event form: ", err);
+        res.status(500).send("Internal Server Error");
+    }
+
+
+});
+
+
+// route -> ADMIN: Edit Event POST
+router.post('/events/edit/:eventID', isAuthenticated, async (req, res) => {
+    const eventID = req.params.eventID;
+
+    try {
+        // Find the event by ID
+        const event = await Event.findById(eventID);
+
+        if (!event) {
+            res.status(404).send('Event not found');
+            return;
+        }
+
+        // Update event fields based on the form data
+        event.title = req.body.title;
+        event.date = req.body.date;
+        event.venue = req.body.venue;
+        event.price = req.body.price;
+        event.description = req.body.description;
+
+        // Save the updated event
+        await event.save();
+
+        // Redirect to the events page or any other appropriate page
+        res.redirect('/admin/events');
+
+    } catch (err) {
+        console.log("Error in updating event: ", err);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
+
+
+
+// route -> ADMIN: Edit Event
+router.get('/events/delete/:eventID', isAuthenticated, async (req, res) => {
+
+    const eventID = req.params.eventID;
+
+    try {
+        // Find the event by ID
+        const event = await Event.findById(eventID);
+
+        if (!event) {
+            res.status(404).send('Event not found');
+            return;
+        }
+
+        // Find users who booked this event and remove the event from their 'events' array
+        const users = await User.find({ events: eventID });
+        users.forEach(async (user) => {
+            user.events.pull(eventID);
+            await user.save();
+        });
+
+        // Delete associated reviews
+        await Review.deleteMany({ event: eventID });
+
+        // Delete the event
+        await Event.findByIdAndDelete(eventID);
+
+        // Redirect to the events page or any other appropriate page
+        res.redirect('/admin/events');
+
+    } catch (err) {
+        console.log("Error in deleting event: ", err);
+        res.status(500).send("Internal Server Error");
+    }
+
+});
+
+
 
 
 
