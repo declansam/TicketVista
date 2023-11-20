@@ -6,6 +6,7 @@ import LocalStrategy from 'passport-local';
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 import sanitize from "mongo-sanitize";
+import fetch from 'node-fetch';
 
 const User = mongoose.model("User");
 
