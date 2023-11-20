@@ -5,6 +5,7 @@ import passport from 'passport';
 import LocalStrategy from 'passport-local';
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
+import sanitize from "mongo-sanitize";
 
 const User = mongoose.model("User");
 
@@ -20,7 +21,8 @@ const verifyCallback = async (username, password, done) => {
     
     try {
         
-        const pattern = new RegExp(`^${username}$`, 'i');
+        const sanitizedUsername = sanitize(username);
+        const pattern = new RegExp(`^${sanitizedUsername}$`, 'i');
         const user = await User.findOne({username: pattern});
 
         // check if user exists
@@ -31,7 +33,8 @@ const verifyCallback = async (username, password, done) => {
         // compare password
         try {
 
-            const isValid = await bcrypt.compare(password, user.hash);
+            const sanitizedPassword = sanitize(password);
+            const isValid = await bcrypt.compare(sanitizedPassword, user.hash);
 
             if (isValid === false) {
                 return done(null, false, { message: 'Incorrect password.' });
@@ -92,7 +95,7 @@ const registerStrategy = new LocalStrategy(
                 
                 console.error('Error verifying reCAPTCHA - no success:');
                 return done(null, false, {
-                    message: 'Error verifying reCAPTCHA',
+                    message: 'Error verifying reCAPTCHA!',
                     renderData: { error: 'Error verifying reCAPTCHA!', formData: req.body },
                 });
             }
@@ -119,10 +122,10 @@ const registerStrategy = new LocalStrategy(
 
         } catch (error) {
             
-            console.error('Error verifying reCAPTCHA:', error);
+            console.error('Registration failed. Name & Credentials need to be 4-characters long.', error);
             return done(null, false, { 
-                message: 'Error verifying reCAPTCHA',
-                renderData: { error: 'Error verifying reCAPTCHA', formData: req.body },
+                message: 'Registration failed. Name & Credentials need to be 4-characters long.',
+                renderData: { error: 'Registration failed. Name & Credentials need to be 4-characters long.', formData: req.body },
             });
         }
     }

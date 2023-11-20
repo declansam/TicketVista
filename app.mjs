@@ -13,7 +13,6 @@ import mongoose from 'mongoose';
 import session from 'express-session';
 import passport from 'passport';
 import flash from "express-flash";
-import bcrypt from 'bcryptjs';
 
 // express setup
 const app = express();
@@ -201,7 +200,13 @@ app.post(
 
             // Continue with successful registration
             req.login(user, (err) => {
-                if (err) return next(err);
+                
+                // in case of error, pass the error to the next middleware
+                if (err) {
+                    return next(err);
+                }
+
+                // Redirect to homepage after successful registration
                 return res.redirect('/');
             });
 
