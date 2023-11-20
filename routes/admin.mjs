@@ -4,6 +4,7 @@ import express from 'express';
 const router = express.Router();
 
 import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
 const User = mongoose.model("User");
 const Event = mongoose.model("Event");
 
@@ -139,6 +140,61 @@ router.post('/newEvent', async (req, res) => {
         // Update the 'addedEvents' array of the user
         userFound.addedEvents.push(savedEvent._id);
         await userFound.save();
+
+
+        // add participants to the event
+        const participants = req.body.participants.split(',');
+        const filteredParticipants = participants.map(participant => participant.trim());
+
+        // for each participant, check if they exist in the database
+        // if yes, add the event to their 'events' array
+        // if no, create a new user and add the event to their 'events' array
+        for (let i = 0; i < filteredParticipants.length; i++) {
+
+            const participant = filteredParticipants[i];
+
+            // check if the participant exists in the database
+            const participantFound = await User.findOne({ username: participant });
+
+            // if participant found, add the event to their 'events' array
+            if (participantFound) {
+                
+                // add the event to the participant's 'events' array
+                participantFound.events.push(savedEvent._id);
+                await participantFound.save();
+
+                // add the participant to the event's 'participants' array
+                savedEvent.participants.push(participantFound._id);
+                await savedEvent.save();
+
+            }
+
+            // if participant not found, create a new user and add the event to their 'events' array
+            else {
+                const newParticipant = new User({
+                    name: participant,
+                    username: participant,
+                    hash: await bcrypt.hash(participant, 10),
+                    admin: false,
+                    events: [savedEvent._id],
+                    addedEvents: []
+                });
+
+                // save the new participant to the database
+                const savedParticipant = await newParticipant.save();
+                console.log(savedParticipant);
+
+                // add the participant to the event's 'participants' array
+                savedEvent.participants.push(savedParticipant._id);
+                await savedEvent.save();
+            }
+
+            // update the number of users for this event
+            savedEvent.numUsers = savedEvent.participants.length;
+            await savedEvent.save();
+        }
+        
+
 
         // redirect to the homepage
         res.redirect('/admin/events');
