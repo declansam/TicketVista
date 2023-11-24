@@ -10,11 +10,19 @@ const Event = mongoose.model("Event");
 const Review = mongoose.model("Review");
 
 
-// middleware to check if user is authenticated
+// middleware to check if user is authenticated and provide user specific data
 const isAuthenticated = (req, res, next) => {
+    
     if (req.isAuthenticated()) {
+
+        // Check if the authenticated user matches the requested user
+        if (req.params.username && req.params.username !== req.user.username) {
+            return res.status(403).render('forbidden', { message: 'Forbidden' });
+        }
+
         return next();
     }
+
     res.redirect('/login');
 };
 
