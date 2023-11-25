@@ -1,68 +1,101 @@
-<h1 class="text-4xl font-bold mb-6">{{title}}</h1>
+{{!-- <h1 class="text-4xl font-bold mb-6 font-heading flex justify-center">{{title}}</h1> --}}
 
-{{!-- Login & Register Options --}}
-<div class="home-buttons">
+<div class="flex items-center justify-center">
 
-    {{!-- Show Login button only if logged out --}}
     {{#unless isLoggedIn}}
-
-        <div class="login">
-            <a href="/login">
-                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline-blue active:bg-blue-800">Login</button>
-            </a>
+        {{!-- Image on the left half --}}
+        <div class="home-bg w-1/2 overflow-hidden rounded-l-lg shadow-lg mt-[100px]">
+            <img src="img/bg-1-rachel-coyne-unsplash.jpg" alt="Event Image" class="w-full h-full object-cover">
         </div>
-
     {{/unless}}
 
+    {{!-- Login & Register Options --}}
+    <div class="home-buttons ml-8">
 
-    {{!-- Options for Admin --}}
-    {{#if isAdmin}}
+        {{!-- Show cover-photo & Login button only if logged out --}}
+        {{#unless isLoggedIn}}
 
-        {{!-- Show Admin button only if logged in as admin --}}
-        <div class="admin">
-            <a href="/admin/events">
-                <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline-green active:bg-green-800">Admin Dashboard</button>
-            </a>
-        </div>
-
-        {{!-- Show New Event button only if logged in as admin --}}
-        <div class="newEvent">
-            <a href="/admin/newEvent">
-                <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline-green active:bg-green-800">Create A New Event</button>
-            </a>
-        </div>
-    
-    {{/if}}
-
-    {{!-- Move it inside the upper 'if' IF register feature is exclusive to ADMIN --}}
-    {{!-- Register a new user button --}}
-    <div class="register">
-        <a href="/register">
-            <button class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline-indigo active:bg-indigo-800">Register a New User!</button>
-        </a>
-    </div>
-
-
-    {{#if isLoggedIn}}
-
-        {{#unless isAdmin}}
-
-            {{!-- Show User Dashboard button only if logged in as user --}}
-            <div class="user">
-                <a href="/u/{{username}}/events">
-                    <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline-green active:bg-green-800">User Dashboard</button>
-                </a>
+            <div class="home-loggedout-text text-center mt-[140px] ml-4">
+                <h1 class="text-4xl font-bold mb-6 font-heading flex justify-center">Welcome to TicketVista!</h1>
+                <h5 class="flex justify-center font-body mb-4"> 
+                    <i>
+                        Your Gateway to Unforgettable Experiences
+                    </i>
+                </h5>
+                <h2 class="text-2xl font-bold mb-6 font-heading flex justify-center">Please login or register to continue.</h2>
             </div>
 
-            {{!-- Similarly, show 'book event' button --}}
-            <div class="user">
-                <a href="/u/{{username}}/book">
-                    <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline-green active:bg-green-800">Book Event</button>
+            <div class="login">
+                <a href="/login">
+                    <button class="ml-4 mt-[2rem] bg-gradient-to-r from-secondary-600 to-tert-700 hover:from-tert-600 hover:to-tert-800 font-button text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-tert-300 shadow-md">
+                        LOGIN
+                    </button>
                 </a>
             </div>
 
         {{/unless}}
 
-    {{/if}}
+
+        {{!-- Options for Admin --}}
+        {{#if isAdmin}}
+
+            {{!-- Show Admin button only if logged in as admin --}}
+            <div class="admin">
+                <a href="/admin/events">
+                    <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline-green active:bg-green-800">Admin Dashboard</button>
+                </a>
+            </div>
+
+            {{!-- Show New Event button only if logged in as admin --}}
+            <div class="newEvent">
+                <a href="/admin/newEvent">
+                    <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline-green active:bg-green-800">Create A New Event</button>
+                </a>
+            </div>
+        
+        {{/if}}
+
+        {{!-- Move it inside the upper 'if' IF register feature is exclusive to ADMIN --}}
+        {{!-- Register a new user button --}}
+        <div class="register">
+            <a href="/register">
+                <button class="ml-4 bg-gradient-to-r from-green-500 to-green-700 hover:from-green-600 hover:to-green-800 font-button text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-green active:bg-green-800 shadow-md mt-2">
+                    REGISTER!
+                </button>
+            </a>
+        </div>
+
+
+        {{#if isLoggedIn}}
+            
+            {{#if isAdmin}}
+
+                
+
+            {{/if}}
+
+
+            {{!-- regular user --}}
+            {{#unless isAdmin}}
+
+                {{!-- Show User Dashboard button only if logged in as user --}}
+                <div class="user">
+                    <a href="/u/{{username}}/events">
+                        <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline-green active:bg-green-800">User Dashboard</button>
+                    </a>
+                </div>
+
+                {{!-- Similarly, show 'book event' button --}}
+                <div class="user">
+                    <a href="/u/{{username}}/book">
+                        <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline-green active:bg-green-800">Book Event</button>
+                    </a>
+                </div>
+
+            {{/unless}}
+
+        {{/if}}
+
+    </div>
 
 </div>

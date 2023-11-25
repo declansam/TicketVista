@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     {{!-- Favicon --}}
-    <link rel="shortcut icon" href="/img/favicon-32.png" type="image/x-icon">
+    <link rel="shortcut icon" href="/img/favicon-512.png" type="image/x-icon">
 
     {{!-- Stylesheets --}}
     <link rel="stylesheet" href="/stylesheets/style.css">
@@ -17,34 +17,59 @@
     <title>TicketVista</title>
 
 </head>
-<body class="bg-gray-100">
+<body class="bg-[#DDE6ED] min-h-screen flex flex-col">
 
 
-        <div class="nav-bar bg-blue-500 text-white py-2 px-4 flex justify-between items-center">
+        <div class="nav-bar bg-primary-100 text-white py-2 px-4 flex justify-between items-center">
 
             {{!-- Logo --}}
             <div class="logo">
-                <a href="/"><img src="/img/favicon-192.png" alt="TicketVista" width = "80"></a>
+                <a href="/">
+                    <img src="/img/ticket.png" alt="TicketVista" width = "80">
+                </a>
             </div>
 
             {{!-- Banner Title --}}
-            <div class="banner text-4xl font-bold">
-                <h1>TicketVista</h1>
+            <div class="banner text-4xl font-heading">
+                <a href="/">
+                    <h1>TicketVista</h1>
+                </a>
             </div>
 
             {{!-- User's Info --}}
-            <div class="pageName text-lg font-semibold flex items-center">
+            <div class="pageName text-lg font-semibold flex items-center text-secondary-100">
                 
 
                 {{!-- Logout Button --}}
                 {{#if isLoggedIn}}
-                    <h3> Welcome, {{pageName}}! </h3>
+                    <h3> Welcome, 
+                        <span class = "text-orange-500 font-extrabold">
+                            {{pageName}}! 
+                        </span>    
+                    </h3>
 
                     <form action="/logout" method="POST">
                         <button type="submit" class="ml-2 bg-red-500 hover:bg-red-700 text-white font-semibold py-1 px-2 rounded focus:outline-none focus:shadow-outline-red">Logout</button>
                     </form>
+                
                 {{else}}
-                    <h3> Hello, Guest! </h3>
+
+                    <h3> Hello, 
+                        <span class="text-secondary-300 font-extrabold">
+                            Guest! 
+                        </span>
+                    </h3>
+
+                    <div class="login">
+                        
+                        <a href="/">
+                            <button class="ml-2 bg-gradient-to-r from-secondary-600 to-tert-700 hover:from-secondary-700 hover:to-tert-800 font-button text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-tert-300 shadow-md">
+                                HOME
+                            </button>
+                        </a>
+
+                    </div>
+
                 {{/if}}
                 
             </div>
@@ -54,5 +79,17 @@
 
     {{{body}}}
 
+
+    {{!-- single line footer for copyright --}}
+    <!-- single line footer for copyright -->
+    <footer class="bg-secondary-600 text-white py-2 px-4 mt-auto flex items-center justify-center">
+        <div class="footer text-[0.7rem] font-button font-semibold text-secondary-100">
+            <h3>&copy; 2023 TicketVista. All rights reserved.</h3>
+        </div>
+    </footer>
+
+
 </body>
+
+
 </html>
