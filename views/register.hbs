@@ -1,15 +1,17 @@
 
 
 {{!-- if the user already exists --}}
-{{#if error}}
-
-    <h1 class="text-red-600 text-xl font-bold mb-4">{{error}}</h1>
-
-{{/if}}
+<div class="login-error flex justify-center">
+    {{#if error}}
+        <h1 class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-md mb-4 mt-[10px]">
+            {{error}}
+        </h1>
+    {{/if}}
+</div>
 
 
 {{!-- Registration Form --}}
-<form method="POST" action="" class="max-w-sm mx-auto mt-8 p-4 bg-white shadow-md rounded-md" id = "register-form">
+<form method="POST" action="" class="max-w-sm mx-auto mt-8 p-4 bg-secondary-100 shadow-md rounded-md" id = "register-form">
     
     {{!-- User's NAME --}}
     {{!-- In case of captcha fail, retain name & username but not password for safety --}}
@@ -55,8 +57,23 @@
     <br>
     
     {{!-- Submit Button --}}
-    <button type="submit" class="w-full bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md hover:shadow-md focus:outline-none focus:ring focus:ring-blue-300">
+    <button type="submit" class="w-full bg-gradient-to-r from-green-500 to-green-700 hover:from-green-600 hover:to-green-800 font-button text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-green active:bg-green-800 shadow-md">
         Submit
     </button>
 
 </form>
+
+
+{{!-- Take back to login page --}}
+<div class="flex justify-center mt-10">
+
+    {{!-- text  --}}
+    <p class="text-primary-300 font-semibold">
+        Already have an account?
+
+    <a href="/login">
+
+        <button class="text-secondary-600 font-bold ml-2 hover:text-secondary-700">
+            Login
+    </a>
+</div>

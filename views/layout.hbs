@@ -30,7 +30,7 @@
             </div>
 
             {{!-- Banner Title --}}
-            <div class="banner text-4xl font-heading">
+            <div class="banner text-4xl font-heading absolute top-[40px] left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                 <a href="/">
                     <h1>TicketVista</h1>
                 </a>
@@ -77,13 +77,15 @@
 
     </div>
 
-    {{{body}}}
+    <div class="flex-grow">
+        {{{body}}}
+    </div>
 
 
     {{!-- single line footer for copyright --}}
     <!-- single line footer for copyright -->
-    <footer class="bg-secondary-600 text-white py-2 px-4 mt-auto flex items-center justify-center">
-        <div class="footer text-[0.7rem] font-button font-semibold text-secondary-100">
+    <footer class="bg-[#212A3E] text-white py-2 px-4 mt-auto flex items-center justify-center">
+        <div class="footer text-[0.6rem] font-button font-semibold">
             <h3>&copy; 2023 TicketVista. All rights reserved.</h3>
         </div>
     </footer>
