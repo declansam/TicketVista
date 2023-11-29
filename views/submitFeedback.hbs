@@ -1,33 +1,35 @@
 
 
-<h1>Submit Feedback</h1>
+{{!-- <h1>Submit Feedback</h1> --}}
 
-<br><br>
 
-{{#if error}}
+<div class="login-error flex justify-center">
+    {{#if error}}
+        <h1 class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-md mb-4 mt-[10px]">
+            {{error}}
+        </h1>
+    {{/if}}
+</div>
 
-    <h1 class="text-red-600 text-xl font-bold mb-4">{{error}}</h1>
-
-{{/if}}
+<div class="title text-2xl font-heading font-bold mb-4 mt-9 flex justify-center">
+    <h1>Submit Feedback</h1>
+</div>
 
 {{!-- Feedback Form --}}
 {{#if event}} 
 
-    <div class="feedback">
+    <div class="feedback max-w-4xl mx-auto mt-8 p-4 bg-secondary-100 shadow-md rounded-md">
 
         <div class="feedback-event-info">
-            <p><strong>Event Name:</strong> {{event.title}}</p>
-            <p><strong>Event Date:</strong> {{event.date}}</p>
-            <p><strong>Event Venue:</strong> {{event.venue}}</p>
-            <p><strong>Description:</strong> {{event.description}}</p>
-            <p><strong>Price:</strong> {{event.price}}</p>
-        </div>
-
-        <div class="feedback-form">
+            <h2><strong>Event Name:</strong> {{event.title}}</h2>
+            <h2><strong>Event Date:</strong> {{event.date}}</h2>
+            <h2><strong>Event Venue:</strong> {{event.venue}}</h2>
+            <h2><strong>Description:</strong> {{event.description}}</h2>
+            <h2><strong>Price ($):</strong> {{event.price}}</h2>
             
             <form action="/u/{{userFound.username}}/feedback/{{event._id}}" method="POST">
 
-                <div class="feedback-form-rating">
+                <div class="feedback-form-rating mt-4">
                     <label for="rating" class="block text-gray-600 text-sm font-semibold">Rating:</label>
                     <select id="rating" name="rating" required class="w-full px-3 py-2 border rounded-md">
                         <option value="1">1 (Poor)</option>
@@ -38,21 +40,20 @@
                     </select>
                 </div>
 
-                <div class="feedback-form-comment">
+                <div class="feedback-form-comment mt-4">
                     <label for="comment" class="block text-gray-600 text-sm font-semibold">Comment:</label>
                     <input type="text" id="reviewText" name="reviewText" value="" required class="w-full px-3 py-2 border rounded-md">
                 </div>
 
-                <button type="submit">Submit Feedback</button>
+                <button type="submit" class="mt-4 bg-gradient-to-r from-secondary-600 to-tert-700 hover:from-tert-600 hover:to-tert-800 font-button text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-tert-300 shadow-md">
+                    Submit Feedback
+                </button>
 
             </form>
 
-        </div> 
-
-
+        </div>
 
     </div>
-
 
 
 {{/if}}

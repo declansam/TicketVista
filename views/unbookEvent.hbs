@@ -1,19 +1,33 @@
 
-<h1>Event Details</h1>
-<br><br>
+<div class="login-error flex justify-center">
+    {{#if error}}
+        <h1 class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-md mb-4 mt-[10px]">
+            {{error}}
+        </h1>
+    {{/if}}
+</div>
 
-<p><strong>Event Name:</strong> {{event.title}}</p>
-<p><strong>Event Date:</strong> {{event.date}}</p>
-<p><strong>Event Venue:</strong> {{event.venue}}</p>
-<p><strong>Description:</strong> {{event.description}}</p>
-<p><strong>Price:</strong> {{event.price}}</p>
+<div class="title text-2xl font-heading font-bold mb-4 mt-9 flex justify-center">
+    <h1>Unbook The Following Event</h1>
+</div>
 
-<br><br>
+<div class="feedback max-w-4xl mx-auto mt-8 p-4 bg-secondary-100 shadow-md rounded-md">
+    <p><strong>Event Name:</strong> {{event.title}}</p>
+    <p><strong>Event Date:</strong> {{event.date}}</p>
+    <p><strong>Event Venue:</strong> {{event.venue}}</p>
+    <p><strong>Description:</strong> {{event.description}}</p>
+    <p><strong>Price:</strong> {{event.price}}</p>
+</div>
+
 
 <!-- Options for the user -->
 <form action="/u/{{userFound.username}}/unbook/{{event._id}}" method="POST">
     
-    <button type="submit">Unbook this Event</button>
+    <div class="flex justify-center">
+        <button type="submit" class="mt-9 bg-gradient-to-r from-secondary-600 to-tert-700 hover:from-tert-600 hover:to-tert-800 font-button text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-tert-300 shadow-md">
+            Unbook this Event
+        </button>
+    </div>
 
 </form>
 

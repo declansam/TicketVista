@@ -36,28 +36,28 @@
                 </a>
 
                 <!-- User-Specific Navigation Links -->
-                <div class="user-navigation py-4 text-center font-heading text-sm mt-1">
+                <div class="user-navigation py-4 text-center font-heading text-sm mt-1 text-secondary-200">
                     
                     {{#if isLoggedIn}}
 
                         {{#if isAdmin}}
 
-                                <a href="/admin/events" class="text-secondary-500 hover:text-secondary-200 hover:underline mx-1">Dashboard</a>
-                                <a href="/admin/newEvent" class="text-secondary-500 hover:text-secondary-200 hover:underline mx-1">New Event</a>
-                                <a href="/register" class="text-secondary-500 hover:text-secondary-200 hover:underline mx-1">New User</a>
+                                <a href="/admin/events" class=" hover:text-secondary-200 hover:underline mx-1">Dashboard</a>
+                                <a href="/admin/newEvent" class="hover:text-secondary-200 hover:underline mx-1">New Event</a>
+                                <a href="/register" class="hover:text-secondary-200 hover:underline mx-1">New User</a>
                         
                         {{else}}
                             
-                             <a href="/u/{{pageName}}/events" class="text-secondary-500 hover:text-secondary-200 hover:underline mx-4">Dashboard</a>
-                             <a href="/u/{{pageName}}/book" class="text-secondary-500 hover:text-secondary-200 hover:underline mx-4">Book</a>
+                             <a href="/u/{{pageName}}/events" class=" hover:text-secondary-200 hover:underline mx-4">Dashboard</a>
+                             <a href="/u/{{pageName}}/book" class="hover:text-secondary-200 hover:underline mx-4">Book</a>
 
                         {{/if}}
 
                     {{else}}
                     
                         <!-- User is not logged in, show login and register links -->
-                        <a href="/login" class="text-secondary-500 hover:text-secondary-200 hover:underline mx-2">Login</a>
-                        <a href="/register" class="text-secondary-500 hover:text-secondary-200 hover:underline mx-2">Register</a>
+                        <a href="/login" class=" hover:text-secondary-200 hover:underline mx-2">Login</a>
+                        <a href="/register" class="hover:text-secondary-200 hover:underline mx-2">Register</a>
                     
                     {{/if}}
                 

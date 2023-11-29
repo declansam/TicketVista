@@ -1,47 +1,54 @@
 
 
 
-{{#if error}}
-    <h1 class="text-red-600 text-xl font-bold mb-4">{{error}}</h1>
-{{/if}}
+<div class="login-error flex justify-center">
+    {{#if error}}
+        <h1 class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-md mb-4 mt-[10px]">
+            {{error}}
+        </h1>
+    {{/if}}
+</div>
 
-<h1> Events Booked by {{userFound.name}}</h1>
-
+{{!-- <h1> Events Booked by {{userFound.name}}</h1> --}}
+<div class="title text-2xl font-heading font-bold mb-4 mt-4 flex justify-center">
+    <h1> Events Booked By {{userFound.name}}</h1>
+</div>
 
 {{#if userEvents.length}}
 
-    <div class="user-events-table">
-        <table class="w-full">
+    <div class="user-events-table p-4 shadow-md rounded-md">
+
+        <table class="w-full bg-secondary-100">
 
             <!-- Table Row Header -->
-            <tr class="bg-blue-500 text-white">
-                <th class="py-2 px-4"> Title </th>
-                <th class="py-2 px-4"> Date </th>
-                <th class="py-2 px-4"> Venue </th>
-                <th class="py-2 px-4"> Description </th>
-                <th class="py-2 px-4"> Feedback </th>
-                <th class="py-2 px-4"> Action </th>
+            <tr class="bg-tert-500 text-white">
+                <th class="py-2 px-4 border"> Title </th>
+                <th class="py-2 px-4 border"> Date </th>
+                <th class="py-2 px-4 border"> Venue </th>
+                <th class="py-2 px-4 border"> Description </th>
+                <th class="py-2 px-4 border"> Feedback </th>
+                <th class="py-2 px-4 border"> Action </th>
             </tr>
 
             <!-- Loop through all the events and display relevant columns -->
             {{#each userEvents}}
                 <tr>
-                    <td class="py-2 px-4"> {{title}} </td>
-                    <td class="py-2 px-4"> {{date}} </td>
-                    <td class="py-2 px-4"> {{venue}} </td>
-                    <td class="py-2 px-4"> {{description}} </td>
+                    <td class="py-2 px-4 text-center"> {{title}} </td>
+                    <td class="py-2 px-4 text-center"> {{date}} </td>
+                    <td class="py-2 px-4 text-center"> {{venue}} </td>
+                    <td class="py-2 px-4 text-center"> {{description}} </td>
 
                     {{!-- Submit a feedback --}}
                     {{!-- href link to a page to unbook the event --}}
-                    <td class="py-2 px-4">
-                        <a href="/u/{{../userFound.username}}/feedback/{{_id}}" class="text-red-500 hover:text-red-700">
+                    <td class="py-2 px-4 text-center">
+                        <a href="/u/{{../userFound.username}}/feedback/{{_id}}" class="text-primary-100 hover:text-red-700">
                             <i class="fas"></i> Submit Review
                         </a>
                     </td>
 
                     {{!-- Delete/ Un-book --}}
                     {{!-- href link to a page to unbook the event --}}
-                    <td class="py-2 px-4">
+                    <td class="py-2 px-4 text-center">
                         <a href="/u/{{../userFound.username}}/unbook/{{_id}}" class="text-red-500 hover:text-red-700">
                             <i class="fas fa-trash-alt"></i> Remove
                         </a>
@@ -54,12 +61,13 @@
     </div> 
 
     {{!-- Display the number of events --}}
-    <div class="total-user-events">
-        <p>Total Events Booked: {{userEvents.length}}</p>
+    <div class="total-user-events bg-gray-200 p-4 rounded-md flex justify-center mt-4">
+        <p class="text-lg font-semibold text-gray-700">Total Events Booked: {{userEvents.length}}</p>
     </div>
+
 
 {{else}}
 
-  <p>No events booked by {{userFound.name}}</p>
+  <p class="flex justify-center">No events booked by {{userFound.name}}</p>
 
 {{/if}}

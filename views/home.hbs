@@ -108,18 +108,40 @@
             {{!-- regular user --}}
             {{#unless isAdmin}}
 
-                {{!-- Show User Dashboard button only if logged in as user --}}
-                <div class="user">
-                    <a href="/u/{{username}}/events">
-                        <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline-green active:bg-green-800">User Dashboard</button>
-                    </a>
-                </div>
+                <div class="user-container-big flex flex-col justify-center items-center h-screen">
+                    
+                    {{!-- text div --}}
+                    <div>
+                        <h2 class="text-3xl font-bold text-gray-800 mb-8">Your Passport to Premium Events!</h2>
+                    </div>
+                    
+                    {{!-- buttons div --}}
+                    <div class="flex flex-row items-center">
+                        
+                        {{!-- Show User Dashboard button only if logged in as user --}}
+                        <div class="user mb-4 mr-9">
+                            <a href="/u/{{username}}/events" class="block">
+                                <div class="bg-secondary-100 p-4 rounded-lg shadow-lg hover:shadow-2xl transition duration-300 border-transparent border-2">
+                                        <img src="img/db-user-icon.png" alt="User Dashboard" class="w-40 h-40 object-cover mb-2 rounded-lg">
+                                        <p class="text-center font-bold text-gray-800">User Dashboard</p>
+                                </div>
+                            </a>
+                        </div>
+                        
+                        {{!-- Similarly, show 'book event' button --}}
+                        <div class="user mb-4 mr-9">
+                            <a href="/u/{{username}}/book">
+                                <div class="bg-secondary-100 p-4 rounded-lg shadow-lg hover:shadow-2xl transition duration-300 border-transparent border-2">
+                                        <img src="img/book-user-icon.png" alt="Book Event" class="w-40 h-40 object-cover mb-2 rounded-lg">
+                                        <p class="text-center font-bold text-gray-800">Book Event</p>
+                                </div>
+                            </a>
+                        </div>
+                    
+                    {{!-- end of buttons div --}}
+                    </div>
 
-                {{!-- Similarly, show 'book event' button --}}
-                <div class="user">
-                    <a href="/u/{{username}}/book">
-                        <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline-green active:bg-green-800">Book Event</button>
-                    </a>
+                {{!-- end of main div --}}
                 </div>
 
             {{/unless}}
