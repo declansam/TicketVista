@@ -1,5 +1,5 @@
 
-<h1>User Reviews for {{event.title}}</h1>
+{{!-- <h1>User Reviews for {{event.title}}</h1> --}}
 
 {{#if error}}
 
@@ -9,26 +9,30 @@
 
 {{#if event}}
 
-    <div class="event-reviews">
+    <div class="event-reviews p-4 shadow-md rounded-md ">
+
+        <div class="title text-2xl font-heading font-bold mb-4 mt-4 flex justify-center">
+           <h1>User Reviews For The {{event.title}} Event</h1>
+        </div>
 
         {{#if event.allReviews.length}}
 
-            <div class="event-reviews-table">
+            <div class="event-reviews-table font-body">
                 <table class="w-full">
 
                     <!-- Table Row Header -->
-                    <tr class="bg-blue-500 text-white">
-                        <th class="py-2 px-4"> Added By </th>
-                        <th class="py-2 px-4"> Rating </th>
-                        <th class="py-2 px-4"> Comment </th>
+                    <tr class="bg-tert-500 text-white">
+                        <th class="py-2 px-4 border"> Added By </th>
+                        <th class="py-2 px-4 border"> Rating </th>
+                        <th class="py-2 px-4 border"> Comment </th>
                     </tr>
 
                     <!-- Loop through all the reviews and display relevant columns -->
                     {{#each event.allReviews}}
                         <tr>
-                            <td class="py-2 px-4"> {{user.name}} </td>
-                            <td class="py-2 px-4"> {{rating}} </td>
-                            <td class="py-2 px-4"> {{reviewText}} </td>
+                            <td class="py-2 px-4 border text-center"> {{user.name}} </td>
+                            <td class="py-2 px-4 border text-center"> {{rating}} </td>
+                            <td class="py-2 px-4 border text-center"> {{reviewText}} </td>
                         </tr>
                     {{/each}}
 
@@ -37,7 +41,7 @@
 
         {{else}}
 
-            <p>No reviews for this event yet.</p>
+            <p class="flex justify-center">No reviews for this event yet.</p>
 
         {{/if}}
 

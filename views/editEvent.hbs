@@ -1,27 +1,29 @@
 
 
-{{#if error}}
-    
-    <h1 class="text-red-600 text-xl font-bold mb-4">{{error}}</h1>
-
-{{/if}}
+<div class="editevent-error flex justify-center">
+    {{#if error}}
+        <h1 class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-md mb-4 mt-[10px]">
+            {{error}}
+        </h1>
+    {{/if}}
+</div>
 
 {{#if event}}
 
-    <div class="edit-event-admin-container p-4 bg-white shadow-md rounded-md">
+    <div class="edit-event-admin-container p-4 shadow-md rounded-md ">
 
         {{!-- Title --}}
-        <div class="title text-2xl font-bold mb-4">
-            <h1>Edit the {{event.title}} event</h1>
+        <div class="title text-2xl font-heading font-bold mb-4 mt-4 flex justify-center">
+            <h1>Edit The {{event.title}} Event</h1>
         </div>
 
-        <div class="edit-event-admin-form">
+        <div class="edit-event-admin-form font-body flex justify-center">
             
             <form action="/admin/events/edit/{{event._id}}" method="POST">
 
                 <div class="mb-4">
                     <label for="title" class="block text-gray-600 text-sm font-semibold">Title:</label>
-                    <input type="text" id="title" name="title" value="{{event.title}}" required class="w-full px-3 py-2 border rounded-md"><br>
+                    <input type="text" id="title" name="title" value="{{event.title}}" required class="w-96 px-3 py-2 border rounded-md"><br>
                 </div>
 
                 <div class="mb-4">
@@ -44,7 +46,7 @@
                     <textarea id="description" name="description" rows="5" required class="w-full px-3 py-2 border rounded-md">{{event.description}}</textarea><br>
                 </div>
                 
-                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md hover:shadow-md focus:outline-none focus:ring focus:ring-blue-300">
+                <button type="submit" class="bg-gradient-to-r from-secondary-600 to-tert-700 hover:from-tert-600 hover:to-tert-800 font-button text-white font-semibold py-2 px-4 rounded-md shadow-md">
                     Save Changes
                 </button>
             </form>

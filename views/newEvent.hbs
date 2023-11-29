@@ -1,24 +1,26 @@
 
 {{!-- Display the error/ access rights here --}}
-{{#if error}}
-
-    <h1 class="text-red-600 text-2xl font-bold my-4">{{error}}</h1>
-
-{{/if}}
+<div class="newevent-error flex justify-center">
+    {{#if error}}
+        <h1 class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-md mb-4 mt-[10px]">
+            {{error}}
+        </h1>
+    {{/if}}
+</div>
 
 
 {{!-- If an admin is accessing this page, display the following --}}
 {{#unless error}}
 
-    <div class="admin-new-container p-4 bg-white shadow-md rounded-md">
+    <div class="admin-new-container p-4 shadow-md rounded-md outline-none">
 
         {{!-- Title --}}
-        <div class="title text-2xl font-bold mb-4">
-            <h1>Add a New Event</h1>
+        <div class="title text-2xl font-heading font-bold mb-4 flex justify-center">
+            <h1>ADD A NEW EVENT</h1>
         </div>
 
 
-        <div class="admin-new-form">
+        <div class="admin-new-form font-body flex justify-center outline-none">
 
             {{!-- Form --}}
             <form method = "POST">
@@ -27,7 +29,7 @@
                 <div class="mb-4">
                     
                     <label for="title" class="block text-gray-600 text-sm font-semibold">Title:</label>
-                    <input type="text" id="title" name="title" value="" required class="w-full px-3 py-2 border rounded-md">
+                    <input type="text" id="title" name="title" value="" required class="w-96 px-3 py-2 border rounded-md">
                 
                 </div>
 
@@ -65,7 +67,7 @@
                 </div>
 
                 {{!-- Add Users Manually --}}
-                <div class="mb-4">
+                <div class="mt-4 mb-4">
 
                     <label for="participants" class="block text-gray-600 text-sm font-semibold">Participants (comma-separated usernames):</label>
                     <input type="text" id="participants" name="participants" value="" class="w-full px-3 py-2 border rounded-md">
@@ -74,9 +76,11 @@
                 
 
                 {{!-- Submit --}}
-                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md hover:shadow-md focus:outline-none focus:ring focus:ring-blue-300">
-                    Submit
-                </button>
+                <div class="flex justify-center mb-9">
+                    <button type="submit" class="bg-gradient-to-r from-secondary-600 to-tert-700 hover:from-tert-600 hover:to-tert-800 font-button text-white font-semibold py-2 px-4 rounded-md shadow-md">
+                        Submit
+                    </button>
+                </div>
 
             </form>
 

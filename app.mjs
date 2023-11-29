@@ -81,8 +81,8 @@ const getPageName = async (username) => {
         const userFound = await User.findOne({ username: pattern });
 
         if (userFound) {
-            const retName = userFound.name;
-            return retName.toUpperCase();
+            const retName = userFound.username;
+            return retName;
         }
     } catch (e) {
         console.log("Error in middleware: ", e);

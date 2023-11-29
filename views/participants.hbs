@@ -1,38 +1,42 @@
 
-<h1>List of participants for {{event.title}}</h1>
+{{!-- <h1>List of participants for {{event.title}}</h1> --}}
 
 {{#if error}}
-    
+
     <h1 class="text-red-600 text-xl font-bold mb-4">{{error}}</h1>
 
 {{/if}}
 
 {{#if event}}
 
-    <div class="event-participants">
+    <div class="event-participants p-4 shadow-md rounded-md">
+
+        <div class="title text-2xl font-heading font-bold mb-4 mt-4 flex justify-center">
+           <h1>List of Participants For The {{event.title}} Event</h1>
+        </div>
 
         {{#if event.participants.length}}
 
-            <table class="w-full">
+            <table class="w-full font-body">
                 
                 <!-- Table Row Header -->
-                <tr class="bg-blue-500 text-white">
-                    <th class="py-2 px-4">Name</th>
-                    <th class="py-2 px-4">Username</th>
+                <tr class="bg-tert-500 text-white">
+                    <th class="py-2 px-4 border">Name</th>
+                    <th class="py-2 px-4 border">Username</th>
                 </tr>
 
                 <!-- Loop through all the participants and display relevant columns -->
                 {{#each event.participants}}
                     <tr>
-                        <td class="py-2 px-4">{{name}}</td>
-                        <td class="py-2 px-4">{{username}}</td>
+                        <td class="py-2 px-4 text-center">{{name}}</td>
+                        <td class="py-2 px-4 text-center">{{username}}</td>
                     </tr>
                 {{/each}}
             </table>
 
         {{else}}
 
-            <p>No participants for this event yet.</p>
+            <p class="flex justify-center">No participants for this event yet.</p>
 
         {{/if}}
 

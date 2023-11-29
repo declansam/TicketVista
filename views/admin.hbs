@@ -1,25 +1,27 @@
 
 {{!-- Display the error/ access rights here --}}
-{{#if error}}
-
-    <h1 class="text-red-600 text-xl font-bold mb-4">{{error}}</h1>
-
-{{/if}}
+<div class="admin-error flex justify-center">
+    {{#if error}}
+        <h1 class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-md mb-4 mt-[10px]">
+            {{error}}
+        </h1>
+    {{/if}}
+</div>
 
 
 {{!-- If an admin is accessing this page, display the following --}}
 {{#unless error}}
     
     {{!-- Title --}}
-    <div class="admin-all-container p-4 bg-white shadow-md rounded-md">
+    <div class="admin-all-container p- shadow-md rounded-md">
 
-        <div class="title text-2xl font-bold mb-4">
-            <h1>All Events</h1>
+        <div class="title text-2xl font-heading font-bold mb-4 mt-4 flex justify-center">
+            <h1>ALL EVENTS</h1>
         </div>
 
 
     {{!-- Filtering Forms --}}
-    <div class="admin-all-form">
+    <div class="admin-all-form shadow-md rounded-md">
         <form method = "GET" class="mb-4">
 
             {{!-- Title Input --}}
@@ -35,8 +37,8 @@
             
             <br>
             {{!-- Buttons --}}
-            <input type="submit" value = "Filter" class = "submit-button bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md mr-2 hover:shadow-md focus:outline-none focus:ring focus:ring-blue-300">
-            <input type="submit" value="Clear All" class = "submit-button bg-gray-300 text-gray-600 font-semibold py-2 px-4 rounded-md hover:bg-gray-400 hover:shadow-md focus:outline-none focus:ring focus:ring-gray-300">
+            <input type="submit" value = "Filter" class = "submit-button bg-gradient-to-r from-secondary-600 to-tert-700 hover:from-tert-600 hover:to-tert-800 font-button text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-tert-300 shadow-md">
+            <input type="submit" value="Clear All" class = "submit-button bg-gradient-to-r from-secondary-600 to-tert-700 hover:from-tert-600 hover:to-tert-800 font-button text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-tert-300 shadow-md">
         
         </form>
     </div>
@@ -44,11 +46,11 @@
 
 
     {{!-- Event Table --}}
-    <div class = "admin-all-table">
-        <table class="w-full">
+    <div class = "admin-all-table bg-secondary-100 shadow-md rounded-md">
+        <table class="w-full font-body">
 
             {{!-- Table Row Header --}}
-            <tr class="bg-blue-500 text-white">
+            <tr class="bg-tert-500 text-white">
                 <th class="py-2 px-4"> Title </th>
                 <th class="py-2 px-4"> Date </th>
                 <th class="py-2 px-4"> Venue </th>
@@ -64,25 +66,25 @@
             
                 <tr class="border-b">
 
-                <td class="py-2 px-4"> {{title}} </td>
-                <td class="py-2 px-4"> {{date}} </td>
-                <td class="py-2 px-4"> {{venue}} </td>
-                <td class="py-2 px-4"> {{description}} </td>
-                <td class="py-2 px-4"> {{price}} </td>
+                <td class="py-2 px-4 text-center"> {{title}} </td>
+                <td class="py-2 px-4 text-center"> {{date}} </td>
+                <td class="py-2 px-4 text-center"> {{venue}} </td>
+                <td class="py-2 px-4 text-center"> {{description}} </td>
+                <td class="py-2 px-4 text-center"> {{price}} </td>
 
                 {{!-- Participants --}}
-                <td class="py-2 px-4">
+                <td class="py-2 px-4 text-center">
                     <a href="/admin/events/participants/{{this._id}}" class="text-blue-500 hover:underline"> {{numUsers}}: View All</a>
                 </td>
 
                 {{!-- Edit/ Delete --}}
-                <td class="py-2 px-4">
+                <td class="py-2 px-4 text-center">
                     <a href="/admin/events/edit/{{this._id}}" class="text-green-500 hover:underline">Edit</a> | 
                     <a href="/admin/events/delete/{{this._id}}" class="text-red-500 hover:underline">Delete</a>
                 </td>
 
                 {{!-- User Reviews --}}
-                <td class="py-2 px-4">
+                <td class="py-2 px-4 text-center">
                     <a href="/admin/events/reviews/{{this._id}}" class="text-blue-500 hover:underline">View Reviews</a>
                 </td>
                 
