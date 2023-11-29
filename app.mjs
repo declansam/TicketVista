@@ -221,6 +221,53 @@ app.get('/register', (req, res) => {
 });
 
 
+// Route -> signup (i.e. doesn't have access to select the admin option)
+// using passport.j
+app.post(
+    
+    '/signup',
+
+    // Middleware to authenticate the user
+    (req, res, next) => {
+        
+        passport.authenticate('signup', (err, user, info) => {
+            
+            if (err || !user) {
+                
+                // Check if info is defined and has renderData --> retrieve error and formData
+                const { error, formData } = (info && info.renderData) || {};
+                const recaptchaAPIKey = process.env.RECAPTCHASITETKEYREG;
+                
+                // Render the 'register' template with error information
+                // Pass fromData to the template to repopulate the form
+                // Pass recaptchaAPIKey to the template to render the reCAPTCHA widget
+                return res.render('register', { error: error || 'Registration failed', recaptchaAPIKey, formData });
+            }
+
+            // Continue with successful registration
+            req.login(user, (err) => {
+                
+                // in case of error, pass the error to the next middleware
+                if (err) {
+                    return next(err);
+                }
+
+                // Redirect to homepage after successful registration
+                return res.redirect('/');
+            });
+
+        })(req, res, next);
+    }
+);
+
+
+app.get('/signup', (req, res) => {
+    const recaptchaAPIKey = process.env.RECAPTCHASITETKEYREG;
+    res.render('signup', { recaptchaAPIKey: recaptchaAPIKey });
+});
+
+
+
 // route -> login
 // using passport.js
 app.post(

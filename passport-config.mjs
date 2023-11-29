@@ -135,6 +135,81 @@ const registerStrategy = new LocalStrategy(
 passport.use('register', registerStrategy);
 
 
+// strategy for signing up users
+// here, there is no option to set admin --> (admin: false)
+const signUpStrategy = new LocalStrategy(
+    {
+        ...inputData,
+
+        // gives access to the request object
+        passReqToCallback: true
+    },
+
+    async (req, username, password, done) => {
+
+        const pattern = new RegExp(`^${username}$`, 'i');
+        const userFound = await User.findOne({ username: pattern });
+
+        // reCAPTCHA verification - make it mandatory to register
+        const recaptchaResponse = req.body['g-recaptcha-response'];
+        const secretkey = process.env.RECAPTCHASECRETKEYREG;
+        const recaptchaVerificationUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secretkey}&response=${recaptchaResponse}`;
+
+        try {
+            // Verify reCAPTCHA
+            const recaptchaVerificationResult = await fetch(recaptchaVerificationUrl, {
+                method: 'POST',
+            });
+
+            // Parse verification result
+            const recaptchaData = await recaptchaVerificationResult.json();
+
+            // If reCAPTCHA verification failed, return an error
+            // render the register page with (1) API KEY -> to rensure reCAPTCHA is displayed
+            // (2) formData -> to ensure that the user doesn't have to re-enter the data
+            if (!recaptchaData.success) {
+                
+                console.error('Error verifying reCAPTCHA - no success:');
+                return done(null, false, {
+                    message: 'Error verifying reCAPTCHA!',
+                    renderData: { error: 'Error verifying reCAPTCHA!', formData: req.body },
+                });
+            }
+
+            // Continue with user registration
+            if (userFound) {
+
+                console.error('User already exists.');
+                return done(null, false, { 
+                    message: 'User already exists.', 
+                    renderData: { error: 'User already exists.', formData: req.body },
+                });
+            }
+
+            const newUser = new User({
+                name: (req.body.name),
+                username: req.body.username,
+                hash: await bcrypt.hash(req.body.password, 10),
+                admin: false
+            });
+
+            const savedUser = await newUser.save();
+            return done(null, savedUser);
+
+        } catch (error) {
+            
+            console.error('Registration failed. Name & Credentials need to be 4-characters long.', error);
+            return done(null, false, { 
+                message: 'Registration failed. Name & Credentials need to be 4-characters long.',
+                renderData: { error: 'Registration failed. Name & Credentials need to be 4-characters long.', formData: req.body },
+            });
+        }
+    }
+);
+
+passport.use('signup', signUpStrategy);
+
+
 // Passport configuration -> serializeUser used to store user id in session
 passport.serializeUser((user, done) => {
 

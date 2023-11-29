@@ -1,0 +1,66 @@
+
+
+{{!-- if the user already exists --}}
+<div class="login-error flex justify-center">
+    {{#if error}}
+        <h1 class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-md mb-4 mt-[10px]">
+            {{error}}
+        </h1>
+    {{/if}}
+</div>
+
+
+{{!-- Registration Form --}}
+<form method="POST" action="" class="max-w-sm mx-auto mt-8 p-4 bg-secondary-100 shadow-md rounded-md" id = "register-form">
+    
+    {{!-- User's NAME --}}
+    {{!-- In case of captcha fail, retain name & username but not password for safety --}}
+    <div class="mb-4">
+        
+        <label for="name" class="block text-gray-600 text-sm font-semibold">Name</label>
+        <input type="text" name="name" required class="w-full px-3 py-2 border rounded-md" value="{{formData.name}}">
+        
+    </div>
+
+    {{!-- username --}}
+    <div class="mb-4">
+
+        <label for="username" class="block text-gray-600 text-sm font-semibold">Username</label>
+        <input type="text" name="username" required class="w-full px-3 py-2 border rounded-md" value="{{formData.username}}">
+
+    </div>
+
+    {{!-- Password --}}
+    <div class="mb-4">
+
+        <label for="password" class="block text-gray-600 text-sm font-semibold">Password</label>
+        <input type="password" name="password" required class="w-full px-3 py-2 border rounded-md">
+
+    </div>
+
+    {{!-- Google reCAPTCHA element --}}
+    <br>
+        <div class="g-recaptcha" data-sitekey={{recaptchaAPIKey}}></div>
+    <br>
+    
+    {{!-- Submit Button --}}
+    <button type="submit" class="w-full bg-gradient-to-r from-green-500 to-green-700 hover:from-green-600 hover:to-green-800 font-button text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-green active:bg-green-800 shadow-md">
+        Submit
+    </button>
+
+</form>
+
+
+{{!-- Take back to login page --}}
+<div class="flex justify-center mt-10">
+
+    {{!-- text  --}}
+    <p class="text-primary-300 font-semibold">
+        Already have an account?
+
+    <a href="/login">
+
+        <button class="text-secondary-600 font-bold ml-2 hover:text-secondary-700">
+            Login
+    </a>
+</div>
