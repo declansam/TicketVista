@@ -165,7 +165,7 @@ A general site map for the project is as follow. More features may be added if n
 * (2 points) Google reCAPTCHA Integration
     * Google reCAPTCHA is a technology used to distinguish between human and automated traffic on websites.
     * reCAPTCHA is essential for security and user experience, as it helps protect web applications from bots and ensures that interactions are initiated by real users.
-    * I am going to use react-google-recaptcha module to integrate captcha into a few form submission of the web application.
+    * I am going to use Google's Admin Console and its v3 configuration to integrate re-captcha into a few form submission of the web application.
 * (2 points) Tailwind.css
     * I will be using tailwind to style my web application.
     * Tailwind.css promotes rapid development by providing a set of utility classes that can be applied directly to HTML elements.
@@ -184,5 +184,6 @@ A general site map for the project is as follow. More features may be added if n
 1. [Passport.js Documentation](https://www.passportjs.org/)
 2. Google reCAPTCHA Integration
     * [Google VP Console](https://www.google.com/recaptcha/admin/create)
+    * [reCAPTCHA Docs](https://developers.google.com/recaptcha/docs/v3)
 3. [Tailwind.css Documentation](https://tailwindcss.com/docs/installation)
 4. [dotevn Documentation](https://www.npmjs.com/package/dotenv)
