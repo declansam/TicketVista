@@ -143,15 +143,16 @@ A general site map for the project is as follow. More features may be added if n
 
 ## User Stories or Use Cases
 
-  1. As a non-registered user, I can create a new account on the site to book event tickets.
-  2. As a non-registered user, I can add new admin(s) to manage the site.
-  3. As a registered user, I can log in to the site to access my account.
-  4. As a registered user, I can browse and view a list of upcoming events with event details and book them.
-  5. As a user, I can view my booking history and see a list of events I've booked.
-  6. As a user, I can leave reviews and ratings for events I've attended.
-  7. As an admin, I can create, edit, and delete events, including setting event details. 
-  8. As an admin, I can view the list of participants registered for an event.
-  9. As an admin, I can manually add/ invite participants to an event.
+  1. As a non-registered user, I can sign up for a new regular account on the site to book event tickets.
+  2. As a registered user, I can log in to the site to access my account.
+  3. As a registered user, I can browse and view a list of upcoming events with event details and book them.
+  4. As a registered user, I can view my booking history and see a list of events I've booked.
+  5. As a registered user, I can leave reviews and ratings for events I've attended.
+  6. As an admin, I can create, edit, and delete events, including setting event details. 
+  7. As an admin, I can view the list of participants registered for an event.
+  8. As an admin, I can manually add/ invite participants to an event.
+  9. As an admin, I can add new admin(s) to manage the site.
+  10. As an admin, I can read `reviews` dropped by participant(s)/ registered user(s).
 
 <br>
 
@@ -173,7 +174,7 @@ A general site map for the project is as follow. More features may be added if n
 * (1 points) dotevn
     * It allows us to store sensitive information like API keys, database credentials, and other configuration settings in a separate file.
     * This helps in keeping the application's secrets secure and separate from your source code. 
-    * I will be using it in my application, thus I have dedicated 2 points for it. 
+    * I will be using it in my application, thus I have dedicated 1 points for it. 
 
 
 ## [Link to Initial Main Project File](app.mjs)

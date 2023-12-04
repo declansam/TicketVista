@@ -1,7 +1,11 @@
 
-{{#if message}}
-    <h1 class="text-red-600 font-bold text-xl mb-4">{{message}}</h1>
-{{/if}}
+<div class="login-error flex justify-center">
+    {{#if message}}
+        <h1 class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-md mb-4 mt-[20px]">
+            {{message}}
+        </h1>
+    {{/if}}
+</div>
 
 {{!-- Forbidden Message --}}
 <div class="mt-8 max-w-sm mx-auto">

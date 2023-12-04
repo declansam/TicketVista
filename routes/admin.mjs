@@ -45,7 +45,8 @@ router.get('/events', isAuthenticated, async (req, res) => {
             }
 
             // Finding relevant events from the database -- based on query values
-            allEvents = await Event.find(filteredEvents);
+            allEvents = await Event.find(filteredEvents)
+                        .populate('addedBy');
 
             // render admin.hbs with filtered events (if any)
             res.render('admin', {title, events: allEvents});
@@ -369,6 +370,9 @@ router.get('/events/delete/:eventID', isAuthenticated, async (req, res) => {
 
         // Delete associated reviews
         await Review.deleteMany({ event: eventID });
+
+        // remove the event from the 'addedEvents' array of the admin
+        await User.updateOne({ addedEvents: eventID }, { $pull: { addedEvents: eventID } });
 
         // Delete the event
         await Event.findByIdAndDelete(eventID);
