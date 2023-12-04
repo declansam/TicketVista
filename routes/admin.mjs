@@ -41,7 +41,7 @@ router.get('/events', isAuthenticated, async (req, res) => {
             }
             
             if (req.query.price) {
-                filteredEvents.price = req.query.price;
+                filteredEvents.price = { $gte: req.query.price };
             }
 
             // Finding relevant events from the database -- based on query values

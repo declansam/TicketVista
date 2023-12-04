@@ -12,10 +12,10 @@ The application will store Users, Events and Review collection.
 
 1. Users
     * Admin <br>
-    Initially there is one admin, which can be increased via registration page. Admin can add new events, track number of participants in each event and can manually add participants to an event while creating an event.
+    Initially there is one admin, which can be increased via registration page - only admins can add other admins. Admin can add new events, track number of participants in each event and can manually add participants to an event while creating an event.
 
     * Participants/ Users <br>
-    Participants can see the list of available events and can book an event using event url.
+    Participants can see the list of available events and can book an event using event url. To sign up as a regular user/ participant, non-existent user can use the sign up page.
 
 <br>
 
@@ -68,9 +68,9 @@ An Example Review:
 {
   user: // a reference to the user who submitted the feedback,
   event: // a reference to the event associated with the review,
-  rating: 5, // A numerical rating (e.g., 1 to 5)
-  reviewText: // A description of the review,
-  timestamp: // date at which the review was dropped
+  rating: 5, // A numerical rating (e.g., 1 to 5) (number, required)
+  reviewText: // A description of the review (string, required),
+  timestamp: // date at which the review was dropped (date, required, default)
 }
 ```
 
@@ -174,7 +174,7 @@ A general site map for the project is as follow. More features may be added if n
 * (1 points) dotevn
     * It allows us to store sensitive information like API keys, database credentials, and other configuration settings in a separate file.
     * This helps in keeping the application's secrets secure and separate from your source code. 
-    * I will be using it in my application, thus I have dedicated 1 points for it. 
+    * I will be using it in my application, thus I have dedicated 1 point for it. 
 
 
 ## [Link to Initial Main Project File](app.mjs)
@@ -182,7 +182,7 @@ A general site map for the project is as follow. More features may be added if n
 <br> 
 
 ## Annotations / References Used
-1. [Passport.js Documentation](https://www.passportjs.org/)
+1. [Passport.js Documentation](https://www.passportjs.org/docs/)
 2. Google reCAPTCHA Integration
     * [Google VP Console](https://www.google.com/recaptcha/admin/create)
     * [reCAPTCHA Docs](https://developers.google.com/recaptcha/docs/v3)

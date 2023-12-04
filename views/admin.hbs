@@ -27,12 +27,12 @@
             {{!-- Title Input --}}
             <br>
             <label for="title-admin" class="block text-gray-600 text-sm font-semibold mb-2"> Title:</label>
-            <input type="text" name = "" value = "" placeholder="Search by Event Title" id="title-admin" class = "search-area w-full px-3 py-2 border rounded-md mb-2">
+            <input type="text" name = "title" value = "" placeholder="Search by Event Title" id="title-admin" class = "search-area w-full px-3 py-2 border rounded-md mb-2">
 
             {{!-- Price Input --}}
             <br>
             <label for="price-admin" class="block text-gray-600 text-sm font-semibold mb-2"> Price: </label>
-            <input type="text" name = "price" value = "" placeholder="Search by Event Price" id="price-admin" class = "search-area w-full px-3 py-2 border rounded-md mb-2">
+            <input type="text" name = "price" value = "" placeholder="Search by Event Price (Find events with price greater than or equal to)" id="price-admin" class = "search-area w-full px-3 py-2 border rounded-md mb-2">
         
             
             <br>
@@ -46,11 +46,11 @@
 
 
     {{!-- Event Table --}}
-    <div class = "admin-all-table bg-secondary-100 shadow-md rounded-md">
+    <div class = "admin-all-table bg-secondary-100 shadow-md rounded-md h-[500px] overflow-y-auto">
         <table class="w-full font-body">
 
             {{!-- Table Row Header --}}
-            <tr class="bg-tert-500 text-white">
+            <tr class="bg-tert-500 text-white sticky top-0">
                 <th class="py-2 px-4"> Title </th>
                 <th class="py-2 px-4"> Date </th>
                 <th class="py-2 px-4"> Venue </th>

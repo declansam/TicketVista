@@ -238,10 +238,10 @@ app.post(
                 const { error, formData } = (info && info.renderData) || {};
                 const recaptchaAPIKey = process.env.RECAPTCHASITETKEYREG;
                 
-                // Render the 'register' template with error information
+                // Render the 'signup' template with error information
                 // Pass fromData to the template to repopulate the form
                 // Pass recaptchaAPIKey to the template to render the reCAPTCHA widget
-                return res.render('register', { error: error || 'Registration failed', recaptchaAPIKey, formData });
+                return res.render('signup', { error: error || 'Registration failed', recaptchaAPIKey, formData });
             }
 
             // Continue with successful registration

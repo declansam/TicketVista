@@ -50,45 +50,53 @@
         {{!-- Options for Admin --}}
         {{#if isAdmin}}
 
-            <div class="admin-container-big flex flex-col justify-center items-center h-screen">
+            <div class="admin-container-big flex flex-col justify-center items-center">
                 
-                <div>
-                    <h2 class="text-3xl font-bold text-gray-800 mb-8">Unlock Unforgettable Experiences with TicketVista</h2>
+                <div class="flex-grow grid place-items-center mt-[250px]">
+                    
+                    <div>
+                        <h2 class="text-3xl font-bold text-gray-800 mb-8">Unlock Unforgettable Experiences with TicketVista</h2>
+                    </div>
+
+                    <div class="flex flex-row">
+                        
+                        {{!-- Show Admin button only if logged in as admin --}}
+                        <div class="admin mb-4 mr-9">
+                            <a href="/admin/events" class="block">
+                                <div class="bg-secondary-100 p-4 rounded-lg shadow-lg hover:shadow-2xl transition duration-300 border-2">
+                                    <img src="img/dashboard-icon.png" alt="Admin Dashboard" class="w-40 h-40 object-cover mb-2 rounded-lg">
+                                    <p class="text-center font-bold text-gray-800">Admin Dashboard</p>
+                                </div>
+                            </a>
+                        </div>
+
+                        {{!-- Show New Event button only if logged in as admin --}}
+                        <div class="newEvent mb-4 mr-9">
+                            <a href="/admin/newEvent" class="block">
+                                <div class="bg-secondary-100 p-4 rounded-lg shadow-lg hover:shadow-2xl transition duration-300 border-transparent border-2">
+                                    <img src="img/plus-icon.png" alt="Create New Event" class="w-40 h-40 object-cover mb-2 rounded-lg">
+                                    <p class="text-center font-bold text-gray-800">Create A New Event</p>
+                                </div>
+                            </a>
+                        </div>
+
+                        {{!-- Register a new user button --}}
+                        <div class="register mb-4">
+                            <a href="/register" class="block">
+                                <div class="bg-secondary-100 p-4 rounded-lg shadow-lg hover:shadow-2xl transition duration-300 border-transparent border-2">
+                                    <img src="img/newuser-icon.png" alt="Register-button-admin" class="w-40 h-40 object-cover mb-2 rounded-lg">
+                                    <p class="text-center font-bold text-gray-800">Register New User</p>
+                                </div>
+                            </a>
+                        </div>
+                    
+                    {{!-- end of inner wrapper --}}
+                    </div>
+
+                {{!-- end of flex-grow --}}
                 </div>
-
-                <div class="flex flex-row">
-                    {{!-- Show Admin button only if logged in as admin --}}
-                    <div class="admin mb-4 mr-9">
-                        <a href="/admin/events" class="block">
-                            <div class="bg-secondary-100 p-4 rounded-lg shadow-lg hover:shadow-2xl transition duration-300 border-2">
-                                <img src="img/dashboard-icon.png" alt="Admin Dashboard" class="w-40 h-40 object-cover mb-2 rounded-lg">
-                                <p class="text-center font-bold text-gray-800">Admin Dashboard</p>
-                            </div>
-                        </a>
-                    </div>
-
-                    {{!-- Show New Event button only if logged in as admin --}}
-                    <div class="newEvent mb-4 mr-9">
-                        <a href="/admin/newEvent" class="block">
-                            <div class="bg-secondary-100 p-4 rounded-lg shadow-lg hover:shadow-2xl transition duration-300 border-transparent border-2">
-                                <img src="img/plus-icon.png" alt="Create New Event" class="w-40 h-40 object-cover mb-2 rounded-lg">
-                                <p class="text-center font-bold text-gray-800">Create A New Event</p>
-                            </div>
-                        </a>
-                    </div>
-
-                    {{!-- Register a new user button --}}
-                    <div class="register mb-4">
-                        <a href="/register" class="block">
-                            <div class="bg-secondary-100 p-4 rounded-lg shadow-lg hover:shadow-2xl transition duration-300 border-transparent border-2">
-                                <img src="img/newuser-icon.png" alt="Register-button-admin" class="w-40 h-40 object-cover mb-2 rounded-lg">
-                                <p class="text-center font-bold text-gray-800">Register New User</p>
-                            </div>
-                        </a>
-                    </div>
-
-                </div>
-
+            
+            {{!-- end of admin-container-big --}}
             </div>
 
 
@@ -108,37 +116,42 @@
             {{!-- regular user --}}
             {{#unless isAdmin}}
 
-                <div class="user-container-big flex flex-col justify-center items-center h-screen">
-                    
-                    {{!-- text div --}}
-                    <div>
-                        <h2 class="text-3xl font-bold text-gray-800 mb-8">Your Passport to Premium Events!</h2>
-                    </div>
-                    
-                    {{!-- buttons div --}}
-                    <div class="flex flex-row items-center">
-                        
-                        {{!-- Show User Dashboard button only if logged in as user --}}
-                        <div class="user mb-4 mr-9">
-                            <a href="/u/{{username}}/events" class="block">
-                                <div class="bg-secondary-100 p-4 rounded-lg shadow-lg hover:shadow-2xl transition duration-300 border-transparent border-2">
-                                        <img src="img/db-user-icon.png" alt="User Dashboard" class="w-40 h-40 object-cover mb-2 rounded-lg">
-                                        <p class="text-center font-bold text-gray-800">User Dashboard</p>
-                                </div>
-                            </a>
+                <div class="user-container-big flex flex-col justify-center items-center">
+                
+                    <div class="flex-grow grid place-items-center mt-[250px]">
+
+                        {{!-- text div --}}
+                        <div>
+                            <h2 class="text-3xl font-bold text-gray-800 mb-8">Your Passport to Premium Events!</h2>
                         </div>
                         
-                        {{!-- Similarly, show 'book event' button --}}
-                        <div class="user mb-4 mr-9">
-                            <a href="/u/{{username}}/book">
-                                <div class="bg-secondary-100 p-4 rounded-lg shadow-lg hover:shadow-2xl transition duration-300 border-transparent border-2">
-                                        <img src="img/book-user-icon.png" alt="Book Event" class="w-40 h-40 object-cover mb-2 rounded-lg">
-                                        <p class="text-center font-bold text-gray-800">Book Event</p>
-                                </div>
-                            </a>
+                        {{!-- buttons div --}}
+                        <div class="flex flex-row items-center">
+                            
+                            {{!-- Show User Dashboard button only if logged in as user --}}
+                            <div class="user mb-4 mr-9">
+                                <a href="/u/{{username}}/events" class="block">
+                                    <div class="bg-secondary-100 p-4 rounded-lg shadow-lg hover:shadow-2xl transition duration-300 border-transparent border-2">
+                                            <img src="img/db-user-icon.png" alt="User Dashboard" class="w-40 h-40 object-cover mb-2 rounded-lg">
+                                            <p class="text-center font-bold text-gray-800">User Dashboard</p>
+                                    </div>
+                                </a>
+                            </div>
+                            
+                            {{!-- Similarly, show 'book event' button --}}
+                            <div class="user mb-4 mr-9">
+                                <a href="/u/{{username}}/book">
+                                    <div class="bg-secondary-100 p-4 rounded-lg shadow-lg hover:shadow-2xl transition duration-300 border-transparent border-2">
+                                            <img src="img/book-user-icon.png" alt="Book Event" class="w-40 h-40 object-cover mb-2 rounded-lg">
+                                            <p class="text-center font-bold text-gray-800">Book Event</p>
+                                    </div>
+                                </a>
+                            </div>
+                        
+                        {{!-- end of buttons div --}}
                         </div>
-                    
-                    {{!-- end of buttons div --}}
+
+                    {{!-- end of the flex-grow div --}}
                     </div>
 
                 {{!-- end of main div --}}
