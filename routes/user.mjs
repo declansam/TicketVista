@@ -39,7 +39,7 @@ router.get('/:username/events', isAuthenticated, async (req, res) => {
         }
 
         // Fetch events specific to the user
-        const userEvents = await Event.find( { participants: userFound._id } )
+        const userEvents = await Event.find( { participants: userFound._id } );
         
         res.render('userEvents', { userEvents: userEvents, userFound: userFound });
         
