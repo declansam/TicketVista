@@ -19,31 +19,31 @@
         {{!-- In case of captcha fail, retain name & username but not password for safety --}}
         <div class="mb-4">
             
-            <label for="name" class="block text-gray-600 text-sm font-semibold">Name</label>
-            <input type="text" name="name" required class="w-full px-3 py-2 border rounded-md" value="{{formData.name}}">
+            <label for="name-register" class="block text-gray-600 text-sm font-semibold">Name</label>
+            <input type="text" name="name" id="name-register" autocomplete="off" required class="w-full px-3 py-2 border rounded-md" value="{{formData.name}}">
             
         </div>
 
         {{!-- username --}}
         <div class="mb-4">
 
-            <label for="username" class="block text-gray-600 text-sm font-semibold">Username</label>
-            <input type="text" name="username" required class="w-full px-3 py-2 border rounded-md" value="{{formData.username}}">
+            <label for="username-register" class="block text-gray-600 text-sm font-semibold">Username</label>
+            <input type="text" name="username" id="username-register" autocomplete="off" required class="w-full px-3 py-2 border rounded-md" value="{{formData.username}}">
 
         </div>
 
         {{!-- Password --}}
         <div class="mb-4">
 
-            <label for="password" class="block text-gray-600 text-sm font-semibold">Password</label>
-            <input type="password" name="password" required class="w-full px-3 py-2 border rounded-md">
+            <label for="password-register" class="block text-gray-600 text-sm font-semibold">Password</label>
+            <input type="password" name="password" id="password-register" required class="w-full px-3 py-2 border rounded-md">
 
         </div>
 
         {{!-- Radio: Are you an admin? --}}
         <div class="mb-4">
 
-            <label for="admin" class="block text-gray-600 text-sm font-semibold">Is this person an Admin?</label>
+            <label class="block text-gray-600 text-sm font-semibold">Is this person an Admin?</label>
             <div class="mt-2">
                 <input type="radio" id="admin-yes" name="admin" value="true" required class="mr-2">
                 <label for="admin-yes" class="mr-4">Yes</label>
