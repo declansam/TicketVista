@@ -313,6 +313,13 @@ app.get('/logout', (req, res) => {
 });
 
 
+// route -> credits page
+app.get('/credits', (req, res) => {
+    res.render('credits');
+});
+
+
+
 // Routes for admin
 app.use('/admin', aRoutes);
 

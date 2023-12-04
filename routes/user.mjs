@@ -40,7 +40,6 @@ router.get('/:username/events', isAuthenticated, async (req, res) => {
 
         // Fetch events specific to the user
         const userEvents = await Event.find( { participants: userFound._id } )
-                           .populate('addedBy');
         
         res.render('userEvents', { userEvents: userEvents, userFound: userFound });
         
@@ -61,7 +60,8 @@ router.get('/:username/book', isAuthenticated, async (req, res) => {
     try {
         
         const userFound = await User.findOne({ username: req.params.username });
-        let allEvents = await Event.find({});
+        let allEvents = await Event.find({})
+                        .populate('addedBy');
 
         if (!userFound) {
             return res.status(404).send('User not found');
